@@ -10,9 +10,7 @@
 </head>
 <body>
 <div class="layout">
-
     <jsp:include page="/WEB-INF/views/common/nav.jsp"/>
-
     <div class="main">
         <div class="page-header">
             <h1>Organizations</h1>
@@ -26,19 +24,8 @@
         </c:if>
 
         <div class="card">
-
             <div class="btn-group" style="margin-bottom:16px;">
-                <a href="${pageContext.request.contextPath}/register" class="btn btn-success btn-sm">
-                    + Add Organization
-                </a>
-
-                <form action="${pageContext.request.contextPath}/admin/orgs" method="post" style="display:inline;">
-                    <input type="hidden" name="action" value="removeLastOrg">
-                    <button type="submit" class="btn btn-warning btn-sm"
-                            onclick="return confirm('Remove last added organization?')">
-                        Remove Last
-                    </button>
-                </form>
+                <a href="${pageContext.request.contextPath}/register" class="btn btn-success btn-sm">+ Add Organization</a>
             </div>
 
             <div class="table-wrap">
@@ -53,24 +40,24 @@
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Address</th>
-                        <th>Actions</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <c:choose>
-
                         <c:when test="${empty orgs}">
-                            <tr>
-                                <td colspan="9" style="text-align:center; color:#888;">
-                                    No organizations found.
-                                </td>
-                            </tr>
+                            <tr><td colspan="8" style="text-align:center; color:#888;">No organizations found.</td></tr>
                         </c:when>
-
                         <c:otherwise>
                             <c:forEach var="o" items="${orgs}" varStatus="st">
-                                <tr>
+                                <tr onclick="showOrgDetails(this)"
+                                    data-userid="${o.userId}"
+                                    data-name="<c:out value='${o.orgName}'/>"
+                                    data-type="${o.orgType}"
+                                    data-fullname="<c:out value='${o.fullName}'/>"
+                                    data-username="<c:out value='${o.username}'/>"
+                                    data-email="<c:out value='${o.email}'/>"
+                                    data-phone="<c:out value='${o.phone}'/>"
+                                    data-address="<c:out value='${o.address}'/>">
                                     <td><c:out value="${st.count}"/></td>
                                     <td><c:out value="${o.orgName}"/></td>
                                     <td><c:out value="${o.orgType}"/></td>
@@ -79,29 +66,38 @@
                                     <td><c:out value="${o.email}"/></td>
                                     <td><c:out value="${o.phone}"/></td>
                                     <td><c:out value="${o.address}"/></td>
-                                    <td>
-                                        <form action="${pageContext.request.contextPath}/admin/orgs" method="post" style="display:inline;">
-                                            <input type="hidden" name="action" value="deleteOrg">
-                                            <input type="hidden" name="userId" value="${o.userId}">
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Delete this organization?')">
-                                                Delete
-                                            </button>
-                                        </form>
-                                    </td>
                                 </tr>
                             </c:forEach>
                         </c:otherwise>
-
                     </c:choose>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+        <jsp:include page="/WEB-INF/views/admin/detailsInclude.jsp"/>
 
+        <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
     </div>
 </div>
+
+<script>
+    initializeDetailsForm('${pageContext.request.contextPath}/admin/orgs', 'updateOrg', 'deleteOrg', 'Organization Details');
+
+    function showOrgDetails(row) {
+        if (!row || !row.dataset) return;
+        var d = row.dataset;
+        var content = 
+            createFormField('Org Name', 'orgName', d.name) +
+            createFormField('Org Type', 'orgType', d.type) +
+            createFormField('Contact Person', 'fullName', d.fullname) +
+            createFormField('Username', 'username', d.username, 'text', true) +
+            createFormField('Email', 'email', d.email) +
+            createFormField('Phone', 'phone', d.phone) +
+            createFormField('Address', 'address', d.address, 'textarea');
+        
+        showDetailsForm(content, d.userid, true, row);
+    }
+</script>
 </body>
 </html>

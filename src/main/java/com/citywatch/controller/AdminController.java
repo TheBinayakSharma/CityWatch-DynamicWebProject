@@ -172,6 +172,39 @@ public class AdminController extends HttpServlet {
                     resp.sendRedirect(req.getContextPath() + "/admin/orgs");
                     break;
 
+                case "updateOrg":
+                    Organization uo = new Organization();
+                    uo.setUserId(Integer.parseInt(req.getParameter("userId")));
+                    uo.setOrgName(req.getParameter("orgName"));
+                    uo.setOrgType(req.getParameter("orgType"));
+                    uo.setAddress(req.getParameter("address"));
+                    
+                    User uoUser = userService.findById(uo.getUserId());
+                    uoUser.setFullName(req.getParameter("fullName"));
+                    uoUser.setEmail(req.getParameter("email"));
+                    uoUser.setPhone(req.getParameter("phone"));
+                    
+                    userService.updateUser(uoUser);
+                    userService.updateOrgProfile(uo);
+                    resp.sendRedirect(req.getContextPath() + "/admin/orgs");
+                    break;
+
+                case "updateCivilian":
+                    Civilian uc = new Civilian();
+                    uc.setUserId(Integer.parseInt(req.getParameter("userId")));
+                    uc.setAddress(req.getParameter("address"));
+                    try { uc.setWardNo(Integer.parseInt(req.getParameter("wardNo"))); } catch(Exception ignored) {}
+                    
+                    User ucUser = userService.findById(uc.getUserId());
+                    ucUser.setFullName(req.getParameter("fullName"));
+                    ucUser.setEmail(req.getParameter("email"));
+                    ucUser.setPhone(req.getParameter("phone"));
+                    
+                    userService.updateUser(ucUser);
+                    userService.updateCivilianProfile(uc);
+                    resp.sendRedirect(req.getContextPath() + "/admin/civilians");
+                    break;
+
                 default:
                     resp.sendRedirect(req.getContextPath() + "/admin/home");
             }

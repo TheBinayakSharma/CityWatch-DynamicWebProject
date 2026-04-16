@@ -9,9 +9,7 @@
 </head>
 <body>
 <div class="layout">
-
     <jsp:include page="/WEB-INF/views/common/nav.jsp"/>
-
     <div class="main">
         <div class="page-header">
             <h1>Civilians</h1>
@@ -19,19 +17,8 @@
         </div>
 
         <div class="card">
-
             <div class="btn-group" style="margin-bottom:16px;">
-                <a href="${pageContext.request.contextPath}/register" class="btn btn-success btn-sm">
-                    + Add Civilian
-                </a>
-
-                <form action="${pageContext.request.contextPath}/admin/civilians" method="post" style="display:inline;">
-                    <input type="hidden" name="action" value="removeLastCivilian">
-                    <button type="submit" class="btn btn-warning btn-sm"
-                            onclick="return confirm('Remove last added civilian?')">
-                        Remove Last
-                    </button>
-                </form>
+                <a href="${pageContext.request.contextPath}/register" class="btn btn-success btn-sm">+ Add Civilian</a>
             </div>
 
             <div class="table-wrap">
@@ -45,24 +32,23 @@
                         <th>Phone</th>
                         <th>Ward No.</th>
                         <th>Address</th>
-                        <th>Actions</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <c:choose>
-
                         <c:when test="${empty civilians}">
-                            <tr>
-                                <td colspan="8" style="text-align:center;color:#888;">
-                                    No civilians found.
-                                </td>
-                            </tr>
+                            <tr><td colspan="7" style="text-align:center;color:#888;">No civilians found.</td></tr>
                         </c:when>
-
                         <c:otherwise>
                             <c:forEach var="c" items="${civilians}" varStatus="st">
-                                <tr>
+                                <tr onclick="showCivilianDetails(this)"
+                                    data-userid="${c.userId}"
+                                    data-name="<c:out value='${c.fullName}'/>"
+                                    data-username="<c:out value='${c.username}'/>"
+                                    data-email="<c:out value='${c.email}'/>"
+                                    data-phone="<c:out value='${c.phone}'/>"
+                                    data-ward="${c.wardNo}"
+                                    data-address="<c:out value='${c.address}'/>">
                                     <td><c:out value="${st.count}"/></td>
                                     <td><c:out value="${c.fullName}"/></td>
                                     <td><c:out value="${c.username}"/></td>
@@ -70,30 +56,37 @@
                                     <td><c:out value="${c.phone}"/></td>
                                     <td><c:out value="${c.wardNo}"/></td>
                                     <td><c:out value="${c.address}"/></td>
-                                    <td>
-                                        <form action="${pageContext.request.contextPath}/admin/civilians" method="post" style="display:inline;">
-                                            <input type="hidden" name="action" value="deleteCivilian">
-                                            <input type="hidden" name="userId" value="${c.userId}">
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Delete this civilian?')">
-                                                Delete
-                                            </button>
-                                        </form>
-                                    </td>
                                 </tr>
                             </c:forEach>
                         </c:otherwise>
-
                     </c:choose>
                     </tbody>
                 </table>
             </div>
-
         </div>
 
-        <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+        <jsp:include page="/WEB-INF/views/admin/detailsInclude.jsp"/>
 
+        <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
     </div>
 </div>
+
+<script>
+    initializeDetailsForm('${pageContext.request.contextPath}/admin/civilians', 'updateCivilian', 'deleteCivilian', 'Civilian Details');
+
+    function showCivilianDetails(row) {
+        if (!row || !row.dataset) return;
+        var d = row.dataset;
+        var content = 
+            createFormField('Full Name', 'fullName', d.name) +
+            createFormField('Username', 'username', d.username, 'text', true) +
+            createFormField('Email', 'email', d.email) +
+            createFormField('Phone', 'phone', d.phone) +
+            createFormField('Ward Number', 'wardNo', d.ward) +
+            createFormField('Address', 'address', d.address);
+        
+        showDetailsForm(content, d.userid, true, row);
+    }
+</script>
 </body>
 </html>
