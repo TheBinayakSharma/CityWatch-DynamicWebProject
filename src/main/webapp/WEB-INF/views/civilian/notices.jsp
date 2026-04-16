@@ -4,46 +4,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <title>Notices &ndash; CityWatch</title>
- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <meta charset="UTF-8">
+    <title>Notices &ndash; CityWatch</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
 <div class="layout">
- <jsp:include page="/WEB-INF/views/common/nav.jsp"/>
- <div class="main">
- <div class="page-header">
- <h1>Notices</h1>
- <p>Public notices from the government.</p>
- </div>
- <div class="card">
- <div class="table-wrap">
- <table>
- <thead>
- <tr><th>#</th><th>Title</th><th>Content</th><th>Posted</th></tr>
- </thead>
- <tbody>
- <c:choose>
- <c:when test="${empty notices}">
- <tr><td colspan="4" style="text-align:center;color:#888;">No notices posted yet.</td></tr>
- </c:when>
- <c:otherwise>
- <c:forEach var="n" items="${notices}" varStatus="st">
- <tr>
- <td><c:out value="${st.count}"/></td>
- <td><c:out value="${n.title}"/></td>
- <td><c:out value="${n.description}"/></td>
- <td><fmt:formatDate value="${n.createdAt}" pattern="dd MMM yyyy"/></td>
- </tr>
- </c:forEach>
- </c:otherwise>
- </c:choose>
- </tbody>
- </table>
- </div>
- </div>
- <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
- </div>
+    <jsp:include page="/WEB-INF/views/common/nav.jsp"/>
+    <div class="main">
+        <div class="page-header">
+            <h1>Notices</h1>
+            <p>Public notices from the government.</p>
+        </div>
+        <div class="card">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                    <tr><th>#</th><th>Title</th><th>Posted On</th></tr>
+                    </thead>
+                    <tbody>
+                    <c:choose>
+                        <c:when test="${empty notices}">
+                            <tr><td colspan="3" style="text-align:center;color:#888;">No notices posted yet.</td></tr>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="n" items="${notices}" varStatus="st">
+                                <tr onclick="showNoticeDetail(this)"
+                                    data-title="<c:out value='${n.title}'/>"
+                                    data-content="<c:out value='${n.description}'/>"
+                                    data-date="<fmt:formatDate value='${n.createdAt}' pattern='dd MMM yyyy, HH:mm'/>">
+                                    <td><c:out value="${st.count}"/></td>
+                                    <td><c:out value="${n.title}"/></td>
+                                    <td><fmt:formatDate value="${n.createdAt}" pattern="dd MMM yyyy"/></td>
+                                </tr>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <jsp:include page="/WEB-INF/views/common/detailsViewInclude.jsp"/>
+
+        <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+    </div>
 </div>
+
+<script>
+    function showNoticeDetail(row) {
+        if (!row || !row.dataset) return;
+        var d = row.dataset;
+        var content = 
+            createDetailItem('Notice Title', d.title) +
+            createDetailItem('Posted Date', d.date) +
+            '<div style="grid-column: 1/-1;">' + createDetailItem('Full Content', d.content) + '</div>';
+        
+        showDetails('Notice Details', content, row);
+    }
+</script>
 </body>
 </html>
