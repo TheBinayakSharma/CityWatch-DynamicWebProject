@@ -253,33 +253,32 @@ public class AuthController extends HttpServlet {
     private void doForgotPassword(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
 
-        String email = req.getParameter("email");
+        String username = req.getParameter("username");
 
-        if (ValidationUtil.isNullOrEmpty(email)) {
-            req.setAttribute("error", "Please enter your email.");
+        if (ValidationUtil.isNullOrEmpty(username)) {
+            req.setAttribute("error", "Please enter your username.");
             req.getRequestDispatcher("/WEB-INF/views/auth/reset.jsp").forward(req, resp);
             return;
         }
 
-        // Find user by email
-        String sql = "SELECT id FROM users WHERE email = ?";
+        // Find user by username
+        String sql = "SELECT id FROM users WHERE username = ?";
 
         try (java.sql.PreparedStatement ps =
                      DBConnection.getInstance().getConnection().prepareStatement(sql)) {
 
-            ps.setString(1, email);
+            ps.setString(1, username);
             java.sql.ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 int userId = rs.getInt("id");
                 String token = authService.generateResetToken(userId);
 
-                // In production: email the token. For demo, show it.
+                // Show token in attribute (for the pop-up modal)
                 req.setAttribute("token", token);
-                req.setAttribute("info", "Reset token generated: " + token);
 
             } else {
-                req.setAttribute("error", "No account found with that email.");
+                req.setAttribute("error", "No account found with that username.");
             }
 
         } catch (Exception e) {
