@@ -12,22 +12,15 @@
 <div class="layout">
     <jsp:include page="/WEB-INF/views/common/nav.jsp"/>
     <div class="main">
-        <div class="page-header">
-            <h1>Organizations</h1>
-            <p>All registered NGOs and agencies.</p>
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <div>
+                <h1 class="page-title" style="margin: 0;">Organization Management</h1>
+                <p style="margin: 5px 0 0 0; color: var(--muted);">Manage all registered NGOs and agencies.</p>
+            </div>
+            <button class="btn btn-primary" onclick="prepareAddOrg()">+ Add Organization</button>
         </div>
 
-        <c:if test="${not empty errorMsg}">
-            <div class="alert alert-danger">
-                <c:out value="${errorMsg}"/>
-            </div>
-        </c:if>
-
         <div class="card">
-            <div class="btn-group" style="margin-bottom:16px;">
-                <a href="${pageContext.request.contextPath}/register" class="btn btn-success btn-sm">+ Add Organization</a>
-            </div>
-
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -92,12 +85,25 @@
             createFormField('Org Name', 'orgName', d.name) +
             createFormField('Org Type', 'orgType', d.type) +
             createFormField('Contact Person', 'fullName', d.fullname) +
-            createFormField('Username', 'username', d.username, 'text', true) +
+            createFormField('Username', 'username', d.username, 'text', '', true) +
             createFormField('Email', 'email', d.email) +
             createFormField('Phone', 'phone', d.phone) +
             createFormField('Address', 'address', d.address, 'textarea');
         
         showDetailsForm(content, d.userid, true, row, d.locked);
+    }
+    function prepareAddOrg() {
+        var content = 
+            createFormField('Full Name', 'fullName', '', 'text', 'Organization Admin Name') +
+            createFormField('Username', 'username', '', 'text', 'Unique ID') +
+            createFormField('Password', 'password', '', 'password', 'Min 6 chars') +
+            createFormField('Email', 'email', '', 'email', 'name@example.com') +
+            createFormField('Phone', 'phone', '', 'text', '10 digits') +
+            createFormField('Organization Name', 'orgName', '', 'text', 'NGO/Agency Name') +
+            createFormField('Org Type', 'orgType', '', 'text', 'e.g., Environment') +
+            createFormField('Address', 'address', '', 'textarea', 'Main Headquarters');
+        
+        showDetailsForm(content, '', true, null, false, true, 'addOrg');
     }
 </script>
 </body>

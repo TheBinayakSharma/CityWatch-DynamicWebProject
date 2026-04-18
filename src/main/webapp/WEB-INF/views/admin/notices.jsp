@@ -12,15 +12,15 @@
 <div class="layout">
     <jsp:include page="/WEB-INF/views/common/nav.jsp"/>
     <div class="main">
-        <div class="page-header">
-            <h1>Notices</h1>
-            <p>Recent public announcements and updates.</p>
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <div>
+                <h1 class="page-title" style="margin: 0;">Notice Board</h1>
+                <p style="margin: 5px 0 0 0; color: var(--muted);">Post announcements and public updates.</p>
+            </div>
+            <button class="btn btn-primary" onclick="prepareAddNotice()">+ New Notice</button>
         </div>
 
         <div class="card">
-            <div style="margin-bottom:16px;">
-                <a href="${pageContext.request.contextPath}/admin/addNotice" class="btn btn-success btn-sm">+ New Notice</a>
-            </div>
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -78,6 +78,14 @@
             createFormField('Last Updated', '', d.updated, 'text', true);
         
         showDetailsForm(content, d.id, false, row);
+    }
+
+    function prepareAddNotice() {
+        var content = 
+            createFormField('Notice Title', 'title', '', 'text', 'Subject of the notice') +
+            createFormField('Description', 'description', '', 'textarea', 'Main announcement content...');
+        
+        showDetailsForm(content, '', false, null, false, true, 'addNotice');
     }
 </script>
 </body>

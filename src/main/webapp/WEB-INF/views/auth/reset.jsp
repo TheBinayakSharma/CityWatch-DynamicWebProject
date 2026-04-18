@@ -58,7 +58,7 @@
 
 <div class="auth-container">
     <h2>Forgot Password?</h2>
-    <p>Enter your username and we'll generate a reset token for you.</p>
+    <p>Enter your username and registered email to generate a reset token.</p>
 
     <c:if test="${not empty error}">
         <div class="alert alert-danger" style="margin-bottom:20px;">${error}</div>
@@ -69,7 +69,11 @@
             <label>Username</label>
             <input type="text" name="username" class="form-control" required placeholder="Enter your username">
         </div>
-        <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">Send Reset Link</button>
+        <div class="form-group" style="text-align:left; margin-top:15px;">
+            <label>Registered Email</label>
+            <input type="email" name="email" class="form-control" required placeholder="name@example.com">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; margin-top:20px;">Generate Reset Token</button>
     </form>
 
     <div style="margin-top:20px;">

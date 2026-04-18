@@ -254,31 +254,33 @@ public class AuthController extends HttpServlet {
             throws IOException, ServletException {
 
         String username = req.getParameter("username");
+        String email = req.getParameter("email");
 
-        if (ValidationUtil.isNullOrEmpty(username)) {
-            req.setAttribute("error", "Please enter your username.");
+        if (ValidationUtil.isNullOrEmpty(username) || ValidationUtil.isNullOrEmpty(email)) {
+            req.setAttribute("error", "Username and email are required.");
             req.getRequestDispatcher("/WEB-INF/views/auth/reset.jsp").forward(req, resp);
             return;
         }
 
-        // Find user by username
-        String sql = "SELECT id FROM users WHERE username = ?";
+        // Find user by username AND email
+        String sql = "SELECT id FROM users WHERE username = ? AND email = ?";
 
         try (java.sql.PreparedStatement ps =
                      DBConnection.getInstance().getConnection().prepareStatement(sql)) {
 
             ps.setString(1, username);
+            ps.setString(2, email);
             java.sql.ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 int userId = rs.getInt("id");
                 String token = authService.generateResetToken(userId);
 
-                // Show token in attribute (for the pop-up modal)
+                // Show token for demo
                 req.setAttribute("token", token);
 
             } else {
-                req.setAttribute("error", "No account found with that username.");
+                req.setAttribute("error", "Invalid username or email.");
             }
 
         } catch (Exception e) {

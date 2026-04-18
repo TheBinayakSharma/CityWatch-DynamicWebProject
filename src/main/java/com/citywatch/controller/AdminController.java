@@ -208,6 +208,38 @@ public class AdminController extends HttpServlet {
                     resp.sendRedirect(req.getContextPath() + "/admin/civilians");
                     break;
 
+                case "addOrg":
+                    userService.register(
+                        req.getParameter("fullName"),
+                        req.getParameter("username"),
+                        req.getParameter("password"),
+                        req.getParameter("email"),
+                        req.getParameter("phone"),
+                        "ORGANIZATION",
+                        req.getParameter("orgName"),
+                        req.getParameter("orgType"),
+                        req.getParameter("address"),
+                        null
+                    );
+                    resp.sendRedirect(req.getContextPath() + "/admin/orgs");
+                    break;
+
+                case "addCivilian":
+                    userService.register(
+                        req.getParameter("fullName"),
+                        req.getParameter("username"),
+                        req.getParameter("password"),
+                        req.getParameter("email"),
+                        req.getParameter("phone"),
+                        "CIVILIAN",
+                        null,
+                        null,
+                        req.getParameter("address"),
+                        req.getParameter("wardNo")
+                    );
+                    resp.sendRedirect(req.getContextPath() + "/admin/civilians");
+                    break;
+
                 default:
                     resp.sendRedirect(req.getContextPath() + "/admin/home");
             }

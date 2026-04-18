@@ -11,16 +11,15 @@
 <div class="layout">
     <jsp:include page="/WEB-INF/views/common/nav.jsp"/>
     <div class="main">
-        <div class="page-header">
-            <h1>Civilians</h1>
-            <p>All registered civilian accounts.</p>
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <div>
+                <h1 class="page-title" style="margin: 0;">Civilian Management</h1>
+                <p style="margin: 5px 0 0 0; color: var(--muted);">Manage all citizen accounts.</p>
+            </div>
+            <button class="btn btn-primary" onclick="prepareAddCivilian()">+ Add Civilian</button>
         </div>
 
         <div class="card">
-            <div class="btn-group" style="margin-bottom:16px;">
-                <a href="${pageContext.request.contextPath}/register" class="btn btn-success btn-sm">+ Add Civilian</a>
-            </div>
-
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -80,13 +79,25 @@
         var d = row.dataset;
         var content = 
             createFormField('Full Name', 'fullName', d.name) +
-            createFormField('Username', 'username', d.username, 'text', true) +
+            createFormField('Username', 'username', d.username, 'text', '', true) +
             createFormField('Email', 'email', d.email) +
             createFormField('Phone', 'phone', d.phone) +
             createFormField('Ward Number', 'wardNo', d.ward) +
             createFormField('Address', 'address', d.address);
         
         showDetailsForm(content, d.userid, true, row, d.locked);
+    }
+    function prepareAddCivilian() {
+        var content = 
+            createFormField('Full Name', 'fullName', '', 'text', 'Citizen Name') +
+            createFormField('Username', 'username', '', 'text', 'Unique ID') +
+            createFormField('Password', 'password', '', 'password', 'Min 6 chars') +
+            createFormField('Email', 'email', '', 'email', 'name@example.com') +
+            createFormField('Phone', 'phone', '', 'text', '10 digits') +
+            createFormField('Ward Number', 'wardNo', '', 'number', '1-32') +
+            createFormField('Address', 'address', '', 'text', 'Street/Locality');
+        
+        showDetailsForm(content, '', true, null, false, true, 'addCivilian');
     }
 </script>
 </body>

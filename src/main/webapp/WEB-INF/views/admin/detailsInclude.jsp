@@ -147,31 +147,39 @@
         }
     }
 
-    function showDetailsForm(contentHtml, idValue, isUser, rowElement, isLocked) {
+    function showDetailsForm(contentHtml, idValue, isUser, rowElement, isLocked, isAddMode, customAction) {
         var rows = document.querySelectorAll('tbody tr');
         for (var i = 0; i < rows.length; i++) rows[i].classList.remove('active-row');
         if (rowElement) rowElement.classList.add('active-row');
 
         var userIdField = document.getElementById('userId');
         var itemIdField = document.getElementById('itemId');
+        var formAction = document.getElementById('formAction');
         var lockBtn = document.getElementById('lockBtn');
         var unlockBtn = document.getElementById('unlockBtn');
+        var updateBtn = document.getElementById('updateBtn');
+        var removeBtn = document.getElementById('removeBtn');
         
+        if (customAction) formAction.value = customAction;
+
         lockBtn.style.display = 'none';
         unlockBtn.style.display = 'none';
+        updateBtn.innerText = isAddMode ? 'Add New' : 'Update Changes';
+        removeBtn.style.display = isAddMode ? 'none' : 'inline-block';
 
         if (isUser) {
-            userIdField.value = idValue;
+            userIdField.value = idValue || '';
             itemIdField.value = '';
-            // Since database changes were reverted, we might not have isLocked info
-            // but we keep the logic for when it's restored
-            if (isLocked === 'true' || isLocked === true) {
-                unlockBtn.style.display = 'inline-block';
-            } else if (isLocked !== undefined) {
-                lockBtn.style.display = 'inline-block';
+            
+            if (!isAddMode) {
+                if (isLocked === 'true' || isLocked === true) {
+                    unlockBtn.style.display = 'inline-block';
+                } else if (isLocked !== undefined) {
+                    lockBtn.style.display = 'inline-block';
+                }
             }
         } else {
-            itemIdField.value = idValue;
+            itemIdField.value = idValue || '';
             userIdField.value = '';
         }
 
@@ -189,15 +197,16 @@
         for (var i = 0; i < rows.length; i++) rows[i].classList.remove('active-row');
     }
     
-    function createFormField(label, name, value, type, readOnly) {
+    function createFormField(label, name, value, type, placeholder, readOnly) {
         var val = (value === undefined || value === null) ? '' : value;
+        var ph = placeholder || '';
+        var attr = readOnly ? 'readonly' : '';
         var field = '';
-        var attr = readOnly ? 'disabled' : '';
         if (type === 'textarea') {
-            field = '<textarea name="' + name + '" ' + attr + ' rows="3">' + val + '</textarea>';
+            field = '<textarea name="' + name + '" ' + attr + ' placeholder="' + ph + '" rows="2">' + val + '</textarea>';
         } else {
             var inputType = type || 'text';
-            field = '<input type="' + inputType + '" name="' + name + '" value="' + val + '" ' + attr + '>';
+            field = '<input type="' + inputType + '" name="' + name + '" value="' + val + '" ' + attr + ' placeholder="' + ph + '">';
         }
         return '<div class="form-item"><label>' + label + '</label>' + field + '</div>';
     }
