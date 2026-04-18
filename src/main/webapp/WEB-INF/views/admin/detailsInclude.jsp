@@ -114,6 +114,8 @@
         
         <div class="details-footer">
             <button type="submit" class="btn btn-primary btn-sm" id="updateBtn">Update Changes</button>
+            <button type="button" class="btn btn-success btn-sm" id="approveBtn" style="display:none;" onclick="handleApproval('approveTask')">Approve Task</button>
+            <button type="button" class="btn btn-warning btn-sm" id="rejectBtn" style="display:none;" onclick="handleApproval('rejectTask')">Reject Request</button>
             <button type="button" class="btn btn-warning btn-sm" id="lockBtn" style="display:none;" onclick="handleAccountStatus('lockUser')">Lock Account</button>
             <button type="button" class="btn btn-success btn-sm" id="unlockBtn" style="display:none;" onclick="handleAccountStatus('unlockUser')">Unlock Account</button>
             <button type="button" class="btn btn-danger btn-sm" id="removeBtn" onclick="handleRemove()">Remove Item</button>
@@ -147,6 +149,13 @@
         }
     }
 
+    function handleApproval(action) {
+        if (confirm('Are you sure you want to perform this action on the request?')) {
+            document.getElementById('formAction').value = action;
+            document.getElementById('detailsForm').submit();
+        }
+    }
+
     function showDetailsForm(contentHtml, idValue, isUser, rowElement, isLocked, isAddMode, customAction) {
         var rows = document.querySelectorAll('tbody tr');
         for (var i = 0; i < rows.length; i++) rows[i].classList.remove('active-row');
@@ -159,11 +168,15 @@
         var unlockBtn = document.getElementById('unlockBtn');
         var updateBtn = document.getElementById('updateBtn');
         var removeBtn = document.getElementById('removeBtn');
+        var approveBtn = document.getElementById('approveBtn');
+        var rejectBtn = document.getElementById('rejectBtn');
         
         if (customAction) formAction.value = customAction;
 
         lockBtn.style.display = 'none';
         unlockBtn.style.display = 'none';
+        approveBtn.style.display = 'none';
+        rejectBtn.style.display = 'none';
         updateBtn.innerText = isAddMode ? 'Add New' : 'Update Changes';
         removeBtn.style.display = isAddMode ? 'none' : 'inline-block';
 
@@ -181,6 +194,15 @@
         } else {
             itemIdField.value = idValue || '';
             userIdField.value = '';
+            
+            // Check for Pending Task (using a convention or extra param)
+            if (window.currentTaskStatus === 'PENDING') {
+                approveBtn.style.display = 'inline-block';
+                rejectBtn.style.display = 'inline-block';
+                updateBtn.style.display = 'none'; // Optional: hide update if it's just for approval
+            } else {
+                updateBtn.style.display = 'inline-block';
+            }
         }
 
         var body = document.getElementById('detailsBody');

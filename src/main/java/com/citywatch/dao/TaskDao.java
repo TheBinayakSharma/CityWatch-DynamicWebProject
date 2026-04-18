@@ -93,14 +93,19 @@ public class TaskDao {
     }
 
     public boolean insertTask(Task task) {
-        String sql = "INSERT INTO tasks (title, description, created_by) VALUES (?,?,?)";
+        return insertTaskWithStatus(task, "AVAILABLE");
+    }
+
+    public boolean insertTaskWithStatus(Task task, String status) {
+        String sql = "INSERT INTO tasks (title, description, created_by, status) VALUES (?,?,?,?)";
         try (PreparedStatement ps = getConn().prepareStatement(sql)) {
             ps.setString(1, task.getTitle());
             ps.setString(2, task.getDescription());
             ps.setInt(3, task.getCreatedBy());
+            ps.setString(4, status);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("TaskDao.insertTask: " + e.getMessage());
+            System.err.println("TaskDao.insertTaskWithStatus: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -150,6 +155,22 @@ public class TaskDao {
             System.err.println("TaskDao.completeTask: " + e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean approveTask(int id) {
+        String sql = "UPDATE tasks SET status = 'AVAILABLE' WHERE id = ? AND status = 'PENDING'";
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean rejectTask(int id) {
+        // We can either delete or move to a REJECTED status. 
+        // For simplicity, let's just delete for now as requested.
+        return deleteTask(id);
     }
 
     public int countByStatus(String status) {

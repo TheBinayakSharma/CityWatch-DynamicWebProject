@@ -31,7 +31,8 @@ public class AdminController extends HttpServlet {
             throws ServletException, IOException {
 
         String path = req.getPathInfo();
-        if (path == null) path = "/home";
+        if (path == null)
+            path = "/home";
 
         switch (path) {
             case "/home":
@@ -82,7 +83,8 @@ public class AdminController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
 
         String action = req.getParameter("action");
-        if (action == null) action = "";
+        if (action == null)
+            action = "";
 
         try {
 
@@ -140,8 +142,7 @@ public class AdminController extends HttpServlet {
                 case "deleteOrg":
                     userService.deleteUserWithProfile(
                             Integer.parseInt(req.getParameter("userId")),
-                            "ORGANIZATION"
-                    );
+                            "ORGANIZATION");
                     resp.sendRedirect(req.getContextPath() + "/admin/orgs");
                     break;
 
@@ -154,8 +155,7 @@ public class AdminController extends HttpServlet {
                 case "deleteCivilian":
                     userService.deleteUserWithProfile(
                             Integer.parseInt(req.getParameter("userId")),
-                            "CIVILIAN"
-                    );
+                            "CIVILIAN");
                     resp.sendRedirect(req.getContextPath() + "/admin/civilians");
                     break;
 
@@ -181,12 +181,12 @@ public class AdminController extends HttpServlet {
                     uo.setOrgName(req.getParameter("orgName"));
                     uo.setOrgType(req.getParameter("orgType"));
                     uo.setAddress(req.getParameter("address"));
-                    
+
                     User uoUser = userService.findById(uo.getUserId());
                     uoUser.setFullName(req.getParameter("fullName"));
                     uoUser.setEmail(req.getParameter("email"));
                     uoUser.setPhone(req.getParameter("phone"));
-                    
+
                     userService.updateUser(uoUser);
                     userService.updateOrgProfile(uo);
                     resp.sendRedirect(req.getContextPath() + "/admin/orgs");
@@ -196,13 +196,16 @@ public class AdminController extends HttpServlet {
                     Civilian uc = new Civilian();
                     uc.setUserId(Integer.parseInt(req.getParameter("userId")));
                     uc.setAddress(req.getParameter("address"));
-                    try { uc.setWardNo(Integer.parseInt(req.getParameter("wardNo"))); } catch(Exception ignored) {}
-                    
+                    try {
+                        uc.setWardNo(Integer.parseInt(req.getParameter("wardNo")));
+                    } catch (Exception ignored) {
+                    }
+
                     User ucUser = userService.findById(uc.getUserId());
                     ucUser.setFullName(req.getParameter("fullName"));
                     ucUser.setEmail(req.getParameter("email"));
                     ucUser.setPhone(req.getParameter("phone"));
-                    
+
                     userService.updateUser(ucUser);
                     userService.updateCivilianProfile(uc);
                     resp.sendRedirect(req.getContextPath() + "/admin/civilians");
@@ -210,34 +213,42 @@ public class AdminController extends HttpServlet {
 
                 case "addOrg":
                     userService.register(
-                        req.getParameter("fullName"),
-                        req.getParameter("username"),
-                        req.getParameter("password"),
-                        req.getParameter("email"),
-                        req.getParameter("phone"),
-                        "ORGANIZATION",
-                        req.getParameter("orgName"),
-                        req.getParameter("orgType"),
-                        req.getParameter("address"),
-                        null
-                    );
+                            req.getParameter("fullName"),
+                            req.getParameter("username"),
+                            req.getParameter("password"),
+                            req.getParameter("email"),
+                            req.getParameter("phone"),
+                            "ORGANIZATION",
+                            req.getParameter("orgName"),
+                            req.getParameter("orgType"),
+                            req.getParameter("address"),
+                            null);
                     resp.sendRedirect(req.getContextPath() + "/admin/orgs");
                     break;
 
                 case "addCivilian":
                     userService.register(
-                        req.getParameter("fullName"),
-                        req.getParameter("username"),
-                        req.getParameter("password"),
-                        req.getParameter("email"),
-                        req.getParameter("phone"),
-                        "CIVILIAN",
-                        null,
-                        null,
-                        req.getParameter("address"),
-                        req.getParameter("wardNo")
-                    );
+                            req.getParameter("fullName"),
+                            req.getParameter("username"),
+                            req.getParameter("password"),
+                            req.getParameter("email"),
+                            req.getParameter("phone"),
+                            "CIVILIAN",
+                            null,
+                            null,
+                            req.getParameter("address"),
+                            req.getParameter("wardNo"));
                     resp.sendRedirect(req.getContextPath() + "/admin/civilians");
+                    break;
+
+                case "approveTask":
+                    taskDao.approveTask(Integer.parseInt(req.getParameter("id")));
+                    resp.sendRedirect(req.getContextPath() + "/admin/tasks");
+                    break;
+
+                case "rejectTask":
+                    taskDao.rejectTask(Integer.parseInt(req.getParameter("id")));
+                    resp.sendRedirect(req.getContextPath() + "/admin/tasks");
                     break;
 
                 default:
@@ -277,6 +288,7 @@ public class AdminController extends HttpServlet {
             throws ServletException, IOException {
 
         req.setAttribute("tasks", taskDao.findAll());
+        req.setAttribute("pendingTasks", taskDao.findByStatus("PENDING"));
         fwd(req, resp, "admin/tasks.jsp");
     }
 

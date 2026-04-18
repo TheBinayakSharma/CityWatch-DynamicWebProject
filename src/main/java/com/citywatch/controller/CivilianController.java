@@ -47,16 +47,39 @@ public class CivilianController extends HttpServlet {
                 showCompleted(req, resp);
                 break;
 
+            case "/requestTask":
+                fwd(req, resp, "civilian/requestTask.jsp");
+                break;
+
             default:
                 resp.sendRedirect(req.getContextPath() + "/civilian/home");
         }
     }
 
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
 
-        resp.sendRedirect(req.getContextPath() + "/civilian/home");
+        String path = req.getPathInfo();
+        if ("/requestTask".equals(path)) {
+            doRequestTask(req, resp);
+        } else {
+            resp.sendRedirect(req.getContextPath() + "/civilian/home");
+        }
+    }
+
+    private void doRequestTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession session = req.getSession();
+        int userId = (int) session.getAttribute("userId");
+        String title = req.getParameter("title");
+        String desc = req.getParameter("description");
+
+        com.citywatch.model.Task task = new com.citywatch.model.Task();
+        task.setTitle(title);
+        task.setDescription(desc);
+        task.setCreatedBy(userId);
+
+        taskDao.insertTaskWithStatus(task, "PENDING");
+        resp.sendRedirect(req.getContextPath() + "/civilian/home?success=Request sent for approval");
     }
 
     private void showHome(HttpServletRequest req, HttpServletResponse resp)
