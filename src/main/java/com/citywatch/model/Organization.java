@@ -43,4 +43,8 @@ public class Organization {
 
     public String getFullName()             { return fullName; }
     public void setFullName(String n)       { this.fullName = n; }
+
+    private boolean locked;
+    public boolean isLocked()               { return locked; }
+    public void setLocked(boolean l)        { this.locked = l; }
 }

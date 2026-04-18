@@ -57,7 +57,8 @@
                                     data-username="<c:out value='${o.username}'/>"
                                     data-email="<c:out value='${o.email}'/>"
                                     data-phone="<c:out value='${o.phone}'/>"
-                                    data-address="<c:out value='${o.address}'/>">
+                                    data-address="<c:out value='${o.address}'/>"
+                                    data-locked="${o.locked}">
                                     <td><c:out value="${st.count}"/></td>
                                     <td><c:out value="${o.orgName}"/></td>
                                     <td><c:out value="${o.orgType}"/></td>
@@ -96,7 +97,7 @@
             createFormField('Phone', 'phone', d.phone) +
             createFormField('Address', 'address', d.address, 'textarea');
         
-        showDetailsForm(content, d.userid, true, row);
+        showDetailsForm(content, d.userid, true, row, d.locked);
     }
 </script>
 </body>

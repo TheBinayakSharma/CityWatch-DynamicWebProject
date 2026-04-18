@@ -24,14 +24,15 @@ public class OrganizationDao {
         // joined columns (may or may not be present)
         try { o.setUsername(rs.getString("username")); } catch (SQLException ignored) {}
         try { o.setEmail(rs.getString("email")); }       catch (SQLException ignored) {}
-        try { o.setPhone(rs.getString("phone")); }       catch (SQLException ignored) {}
+        try { o.setPhone(rs.getString("phone")); } catch (SQLException ignored) {}
         try { o.setFullName(rs.getString("full_name")); } catch (SQLException ignored) {}
+        try { o.setLocked(rs.getBoolean("is_locked")); } catch (SQLException ignored) {}
         return o;
     }
 
     public List<Organization> findAll() {
         List<Organization> list = new ArrayList<>();
-        String sql = "SELECT o.*, u.username, u.email, u.phone, u.full_name " +
+        String sql = "SELECT o.*, u.username, u.email, u.phone, u.full_name, u.is_locked " +
                      "FROM organizations o JOIN users u ON o.user_id = u.id ORDER BY o.id DESC";
         try (Statement st = getConn().createStatement();
              ResultSet rs = st.executeQuery(sql)) {
@@ -44,7 +45,7 @@ public class OrganizationDao {
     }
 
     public Organization findByUserId(int userId) {
-        String sql = "SELECT o.*, u.username, u.email, u.phone, u.full_name " +
+        String sql = "SELECT o.*, u.username, u.email, u.phone, u.full_name, u.is_locked " +
                      "FROM organizations o JOIN users u ON o.user_id = u.id WHERE o.user_id = ?";
         try (PreparedStatement ps = getConn().prepareStatement(sql)) {
             ps.setInt(1, userId);

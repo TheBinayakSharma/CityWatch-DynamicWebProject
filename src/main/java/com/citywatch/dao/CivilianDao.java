@@ -22,14 +22,15 @@ public class CivilianDao {
         c.setWardNo(rs.getInt("ward_no"));
         try { c.setUsername(rs.getString("username")); }  catch (SQLException ignored) {}
         try { c.setEmail(rs.getString("email")); }        catch (SQLException ignored) {}
-        try { c.setPhone(rs.getString("phone")); }        catch (SQLException ignored) {}
+        try { c.setPhone(rs.getString("phone")); } catch (SQLException ignored) {}
         try { c.setFullName(rs.getString("full_name")); } catch (SQLException ignored) {}
+        try { c.setLocked(rs.getBoolean("is_locked")); } catch (SQLException ignored) {}
         return c;
     }
 
     public List<Civilian> findAll() {
         List<Civilian> list = new ArrayList<>();
-        String sql = "SELECT c.*, u.username, u.email, u.phone, u.full_name " +
+        String sql = "SELECT c.*, u.username, u.email, u.phone, u.full_name, u.is_locked " +
                      "FROM civilians c JOIN users u ON c.user_id = u.id ORDER BY c.id DESC";
         try (Statement st = getConn().createStatement();
              ResultSet rs = st.executeQuery(sql)) {
@@ -42,7 +43,7 @@ public class CivilianDao {
     }
 
     public Civilian findByUserId(int userId) {
-        String sql = "SELECT c.*, u.username, u.email, u.phone, u.full_name " +
+        String sql = "SELECT c.*, u.username, u.email, u.phone, u.full_name, u.is_locked " +
                      "FROM civilians c JOIN users u ON c.user_id = u.id WHERE c.user_id = ?";
         try (PreparedStatement ps = getConn().prepareStatement(sql)) {
             ps.setInt(1, userId);

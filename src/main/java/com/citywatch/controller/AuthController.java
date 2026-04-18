@@ -24,7 +24,8 @@ import java.sql.Connection;
         "/register",
         "/logout",
         "/forgot-password",
-        "/reset-password"
+        "/reset-password",
+        "/error"
 })
 public class AuthController extends HttpServlet {
 
@@ -55,6 +56,10 @@ public class AuthController extends HttpServlet {
 
             case "/reset-password":
                 req.getRequestDispatcher("/WEB-INF/views/auth/newPassword.jsp").forward(req, resp);
+                break;
+
+            case "/error":
+                req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
                 break;
 
             case "/logout":

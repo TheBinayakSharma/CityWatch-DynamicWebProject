@@ -48,7 +48,8 @@
                                     data-email="<c:out value='${c.email}'/>"
                                     data-phone="<c:out value='${c.phone}'/>"
                                     data-ward="${c.wardNo}"
-                                    data-address="<c:out value='${c.address}'/>">
+                                    data-address="<c:out value='${c.address}'/>"
+                                    data-locked="${c.locked}">
                                     <td><c:out value="${st.count}"/></td>
                                     <td><c:out value="${c.fullName}"/></td>
                                     <td><c:out value="${c.username}"/></td>
@@ -85,7 +86,7 @@
             createFormField('Ward Number', 'wardNo', d.ward) +
             createFormField('Address', 'address', d.address);
         
-        showDetailsForm(content, d.userid, true, row);
+        showDetailsForm(content, d.userid, true, row, d.locked);
     }
 </script>
 </body>
