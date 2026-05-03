@@ -56,11 +56,11 @@ public class AdminController extends HttpServlet {
                 break;
 
             case "/completedTasks":
-                showCompletedTasks(req, resp);
+                resp.sendRedirect(req.getContextPath() + "/admin/tasks?status=COMPLETED");
                 break;
 
             case "/tasksInProgress":
-                showInProgress(req, resp);
+                resp.sendRedirect(req.getContextPath() + "/admin/tasks?status=IN_PROGRESS");
                 break;
 
             case "/addTask":
@@ -291,7 +291,15 @@ public class AdminController extends HttpServlet {
     private void showTasks(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        req.setAttribute("tasks", taskDao.findAll());
+        String status = req.getParameter("status");
+        if (status == null || status.isEmpty() || "ALL".equals(status)) {
+            req.setAttribute("tasks", taskDao.findAll());
+            req.setAttribute("currentFilter", "ALL");
+        } else {
+            req.setAttribute("tasks", taskDao.findByStatus(status));
+            req.setAttribute("currentFilter", status);
+        }
+        
         req.setAttribute("pendingTasks", taskDao.findByStatus("PENDING"));
         fwd(req, resp, "admin/tasks.jsp");
     }

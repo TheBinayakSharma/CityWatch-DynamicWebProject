@@ -53,6 +53,19 @@
             </div>
         </c:if>
 
+        <div class="action-bar" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <div class="filter-group" style="display:flex; align-items:center; gap:10px;">
+                <label style="font-weight:600; color:var(--dark);">Filter by Status:</label>
+                <select id="statusFilter" class="form-control" style="width:200px; padding:8px 12px; border-radius:8px; border:1px solid var(--border);" onchange="filterTasks()">
+                    <option value="ALL" ${currentFilter == 'ALL' ? 'selected' : ''}>All Tasks</option>
+                    <option value="AVAILABLE" ${currentFilter == 'AVAILABLE' ? 'selected' : ''}>Available</option>
+                    <option value="IN_PROGRESS" ${currentFilter == 'IN_PROGRESS' ? 'selected' : ''}>In Progress</option>
+                    <option value="COMPLETED" ${currentFilter == 'COMPLETED' ? 'selected' : ''}>Completed</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="prepareAddTask()">+ Post New Task</button>
+        </div>
+
         <div class="card">
             <div class="table-wrap">
                 <table>
@@ -125,6 +138,11 @@
 
 <script>
     initializeDetailsForm('${pageContext.request.contextPath}/admin/tasks', 'updateTask', 'deleteTask', 'Edit Task');
+
+    function filterTasks() {
+        var status = document.getElementById('statusFilter').value;
+        window.location.href = '${pageContext.request.contextPath}/admin/tasks?status=' + status;
+    }
 
     function showTaskDetails(row) {
         if (!row || !row.dataset) return;

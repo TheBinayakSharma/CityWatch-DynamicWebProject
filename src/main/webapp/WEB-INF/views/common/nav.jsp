@@ -23,8 +23,6 @@
                   <a href="${pageContext.request.contextPath}/admin/orgs">&#x1F3E2; Organizations</a>
                   <a href="${pageContext.request.contextPath}/admin/civilians">&#x1F464; Civilians</a>
                   <a href="${pageContext.request.contextPath}/admin/tasks">&#x1F4CB; Tasks</a>
-                  <a href="${pageContext.request.contextPath}/admin/tasksInProgress">&#x23F3; In Progress</a>
-                  <a href="${pageContext.request.contextPath}/admin/completedTasks">&#x2714; Completed</a>
                   <a href="${pageContext.request.contextPath}/admin/notices">&#x1F4E2; Notices</a>
                </c:when>
                <c:when test="${sessionScope.role == 'ORGANIZATION'}">
