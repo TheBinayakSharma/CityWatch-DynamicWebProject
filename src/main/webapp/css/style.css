@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Inter:wght@400;600;700&display=swap');
+
 /* ── CSS Variables ─────────────────────────────────────────────── */
 :root {
   --primary: #1a3c5e;
@@ -11,6 +13,7 @@
   --muted: #6c757d;
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
   --radius: 6px;
+  --lime: #d4ff00;
 }
 
 /* ── Reset ─────────────────────────────────────────────────────── */
@@ -23,7 +26,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
   font-size: 15px;
@@ -544,5 +547,215 @@ select.form-control {
   .auth-card {
     padding: 28px 20px;
     margin: 16px;
+  }
+}
+
+/* ── Main Footer ────────────────────────────────────────────────── */
+.main-footer {
+  margin-top: 100px;
+  width: 100%;
+}
+
+.footer-cta {
+  background: var(--white);
+  padding: 100px 8%;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  gap: 40px;
+}
+
+.cta-info {
+  flex: 0 0 150px;
+}
+
+.cta-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+}
+
+.cta-heading {
+  flex-grow: 1;
+}
+
+.cta-heading h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 5.5rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 0.9;
+  display: inline-block;
+  border-bottom: 4px solid var(--lime);
+  padding-bottom: 5px;
+}
+
+.cta-action {
+  flex-shrink: 0;
+}
+
+.cta-arrow {
+  width: 120px;
+  height: 120px;
+  background: var(--lime);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #000;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s;
+}
+
+.cta-arrow:hover {
+  transform: scale(1.1) rotate(-45deg);
+  background: #e1ff4d;
+  text-decoration: none;
+}
+
+.footer-main {
+  background: #0d0d0d;
+  color: #ffffff;
+  padding: 100px 8%;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 60px;
+}
+
+.footer-brand .footer-logo {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+  letter-spacing: -1px;
+}
+
+.footer-brand .footer-logo span {
+  font-size: 1rem;
+  vertical-align: top;
+  color: var(--lime);
+}
+
+.footer-brand p {
+  color: #a0a0a0;
+  line-height: 1.8;
+  font-size: 0.95rem;
+  max-width: 280px;
+}
+
+.footer-col .col-header {
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 30px;
+  color: #ffffff;
+}
+
+.footer-col p {
+  font-size: 0.92rem;
+  color: #a0a0a0;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.footer-col a {
+  color: #ffffff;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover {
+  color: var(--lime);
+  text-decoration: none;
+}
+
+.map-link {
+  display: inline-block;
+  margin-top: 15px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  padding-bottom: 2px;
+}
+
+.newsletter-link {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #ffffff;
+  border-bottom: 3px solid #ffffff;
+  padding-bottom: 6px;
+  width: fit-content;
+  margin-bottom: 40px;
+}
+
+.social-section {
+  margin-top: 40px;
+}
+
+.social-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #666;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.social-links {
+  display: flex;
+  gap: 25px;
+}
+
+.social-links a {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.footer-bottom {
+  background: #000;
+  color: #555;
+  padding: 30px 8%;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #1a1a1a;
+}
+
+@media (max-width: 1200px) {
+  .cta-heading h2 {
+    font-size: 4rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .footer-main {
+    grid-template-columns: 1fr 1fr;
+  }
+  .cta-heading h2 {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-cta {
+    flex-direction: column;
+    text-align: center;
+    padding: 60px 8%;
+  }
+  .cta-info {
+    flex: none;
+  }
+  .cta-heading h2 {
+    font-size: 2.8rem;
+  }
+  .footer-main {
+    grid-template-columns: 1fr;
+    padding: 60px 8%;
   }
 }

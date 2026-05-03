@@ -166,13 +166,17 @@ public class AdminController extends HttpServlet {
 
                 // Lock / Unlock user
                 case "lockUser":
-                    userService.lockUser(Integer.parseInt(req.getParameter("userId")));
-                    resp.sendRedirect(req.getContextPath() + "/admin/orgs");
+                    int lockId = Integer.parseInt(req.getParameter("userId"));
+                    userService.lockUser(lockId);
+                    String lockRole = userService.findById(lockId).getRole();
+                    resp.sendRedirect(req.getContextPath() + "/admin/" + ("ORGANIZATION".equals(lockRole) ? "orgs" : "civilians"));
                     break;
 
                 case "unlockUser":
-                    userService.unlockUser(Integer.parseInt(req.getParameter("userId")));
-                    resp.sendRedirect(req.getContextPath() + "/admin/orgs");
+                    int unlockId = Integer.parseInt(req.getParameter("userId"));
+                    userService.unlockUser(unlockId);
+                    String unlockRole = userService.findById(unlockId).getRole();
+                    resp.sendRedirect(req.getContextPath() + "/admin/" + ("ORGANIZATION".equals(unlockRole) ? "orgs" : "civilians"));
                     break;
 
                 case "updateOrg":

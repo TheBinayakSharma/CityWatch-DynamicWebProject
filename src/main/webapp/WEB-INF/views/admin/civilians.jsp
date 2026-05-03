@@ -67,8 +67,8 @@
 
         <jsp:include page="/WEB-INF/views/admin/detailsInclude.jsp"/>
 
-        <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
     </div>
+    <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </div>
 
 <script>

@@ -51,6 +51,9 @@ public class OrgController extends HttpServlet {
             case "/completed":
                 showCompleted(req, resp, orgUserId);
                 break;
+            case "/inProgress":
+                showAllInProgress(req, resp);
+                break;
             default:
                 resp.sendRedirect(req.getContextPath() + "/org/home");
         }
@@ -117,6 +120,12 @@ public class OrgController extends HttpServlet {
             throws ServletException, IOException {
         req.setAttribute("tasks", taskDao.findByOrgAndStatus(orgUserId, "COMPLETED"));
         fwd(req, resp, "org/completed.jsp");
+    }
+
+    private void showAllInProgress(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.setAttribute("tasks", taskDao.findByStatus("IN_PROGRESS"));
+        fwd(req, resp, "org/inProgress.jsp");
     }
 
     private void fwd(HttpServletRequest req, HttpServletResponse resp, String view)

@@ -32,6 +32,7 @@
                   <a href="${pageContext.request.contextPath}/org/notices">&#x1F4E2; Notices</a>
                   <a href="${pageContext.request.contextPath}/org/tasks">&#x1F4CB; Available Tasks</a>
                   <a href="${pageContext.request.contextPath}/org/assigned">&#x23F3; My Tasks</a>
+                  <a href="${pageContext.request.contextPath}/org/inProgress">&#x1F30D; City Progress</a>
                   <a href="${pageContext.request.contextPath}/org/completed">&#x2714; Completed</a>
                </c:when>
                 <c:when test="${sessionScope.role == 'CIVILIAN'}">
