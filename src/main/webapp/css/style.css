@@ -175,6 +175,158 @@ a:hover {
   font-size: 0.9rem;
 }
 
+/* ── Table Search & Filter Bar (Premium Overhaul) ──────────────── */
+.search-bar {
+  margin-bottom: 28px;
+  display: flex !important; /* Force side-by-side */
+  align-items: center;
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border);
+  padding: 4px; /* Internal spacing for the button */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-bar:focus-within {
+  box-shadow: 0 8px 25px rgba(26, 60, 94, 0.15);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.search-bar-inner {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar-inner::before {
+  content: '🔍';
+  position: absolute;
+  left: 20px;
+  font-size: 1.1rem;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 14px 20px 14px 55px;
+  border: none !important;
+  background: transparent !important;
+  font-size: 1.05rem;
+  font-family: inherit;
+  color: var(--text);
+  outline: none !important;
+}
+
+.search-bar input::placeholder {
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+.search-btn {
+  padding: 12px 35px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 9px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.search-btn:hover {
+  background: #112a45;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.search-btn:active {
+  transform: scale(0.96);
+}
+
+.sort-select {
+  padding: 0 15px;
+  background: #f8f9fa;
+  border: none;
+  border-left: 1px solid var(--border);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+  transition: background 0.2s;
+}
+
+.sort-select:hover {
+  background: #edf2f7;
+}
+
+/* ── Table Sorting (High Fidelity) ─────────────────────────────── */
+th {
+  position: relative;
+  padding: 18px 15px !important;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+  background: #f8f9fa;
+  color: var(--primary);
+}
+
+th:hover {
+  background: #edf2f7 !important;
+  color: #000;
+}
+
+th::after {
+  content: '↕';
+  float: right;
+  margin-left: 8px;
+  opacity: 0.2;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+th.sort-asc::after {
+  content: '▲';
+  opacity: 1;
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+th.sort-desc::after {
+  content: '▼';
+  opacity: 1;
+  color: var(--accent);
+  transform: translateY(2px);
+}
+
+/* ── Badge & Table UI Polish ───────────────────────────────────── */
+.table-wrap {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+tr:nth-child(even) { background: #fafafa; }
+tr:hover { background: #f1f5f9 !important; cursor: pointer; }
+
+.badge-available { background: #e8f5e9; color: #1b5e20; border: 1px solid #c8e6c9; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; }
+.badge-in-progress { background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; }
+.badge-completed { background: #e3f2fd; color: #0d47a1; border: 1px solid #bbdefb; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; }
+
 /* ── Stat Cards ────────────────────────────────────────────────── */
 .stats-grid {
   display: grid;

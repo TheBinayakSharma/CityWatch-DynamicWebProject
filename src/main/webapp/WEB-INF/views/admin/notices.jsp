@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Notices &ndash; CityWatch</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?v=1.2">
+    <script src="${pageContext.request.contextPath}/js/table-utils.js?v=1.2"></script>
 </head>
 <body>
 <div class="layout">
@@ -15,14 +16,25 @@
         <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
             <div>
                 <h1 class="page-title" style="margin: 0;">Notice Board</h1>
-                <p style="margin: 5px 0 0 0; color: var(--muted);">Post announcements and public updates.</p>
+                <p style="margin: 5px 0 0 0; color: var(--muted);">Publish and manage city-wide announcements.</p>
             </div>
-            <button class="btn btn-primary" onclick="prepareAddNotice()">+ New Notice</button>
+            <button class="btn btn-primary" onclick="prepareAddNotice()">+ Post New Notice</button>
         </div>
 
         <div class="card">
+            <div class="search-bar">
+                <div class="search-bar-inner">
+                    <input type="text" id="noticeSearch" placeholder="Search notices by title or content...">
+                </div>
+                <select class="sort-select" onchange="triggerSort('noticeTable', this.value)">
+                    <option value="">Sort By...</option>
+                    <option value="1">Title</option>
+                    <option value="2">Posted Date</option>
+                </select>
+                <button class="search-btn" onclick="triggerSearch('noticeSearch')">Search</button>
+            </div>
             <div class="table-wrap">
-                <table>
+                <table id="noticeTable">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -67,6 +79,7 @@
 
 <script>
     initializeDetailsForm('${pageContext.request.contextPath}/admin/notices', 'updateNotice', 'deleteNotice', 'Edit Notice');
+    initTableFeatures('noticeTable', 'noticeSearch');
 
     function showNoticeDetails(row) {
         if (!row || !row.dataset) return;

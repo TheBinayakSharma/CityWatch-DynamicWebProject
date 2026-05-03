@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Available Tasks &ndash; CityWatch</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?v=1.2">
+    <script src="${pageContext.request.contextPath}/js/table-utils.js?v=1.2"></script>
 </head>
 <body>
 <div class="layout">
@@ -14,11 +15,22 @@
     <div class="main">
         <div class="page-header">
             <h1>Available Tasks</h1>
-            <p>Claim a task to start working on it.</p>
+            <p>City tasks open for organizations to claim.</p>
         </div>
         <div class="card">
+            <div class="search-bar">
+                <div class="search-bar-inner">
+                    <input type="text" id="taskSearch" placeholder="Search tasks by title...">
+                </div>
+                <select class="sort-select" onchange="triggerSort('taskTable', this.value)">
+                    <option value="">Sort By...</option>
+                    <option value="1">Title</option>
+                    <option value="3">Date Posted</option>
+                </select>
+                <button class="search-btn" onclick="triggerSearch('taskSearch')">Search</button>
+            </div>
             <div class="table-wrap">
-                <table>
+                <table id="taskTable">
                     <thead>
                     <tr><th>#</th><th>Title</th><th>Posted On</th><th>Status</th></tr>
                     </thead>
@@ -54,6 +66,8 @@
 </div>
 
 <script>
+    initTableFeatures('taskTable', 'taskSearch');
+    
     function showTaskDetail(row) {
         if (!row || !row.dataset) return;
         var d = row.dataset;

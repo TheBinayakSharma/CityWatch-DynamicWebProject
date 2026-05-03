@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>All Tasks &ndash; CityWatch</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?v=1.2">
+    <script src="${pageContext.request.contextPath}/js/table-utils.js?v=1.2"></script>
 </head>
 <body>
 <div class="layout">
@@ -67,8 +68,21 @@
         </div>
 
         <div class="card">
+            <div class="search-bar">
+                <div class="search-bar-inner">
+                    <input type="text" id="taskSearch" placeholder="Search tasks by title, status, or organization...">
+                </div>
+                <select class="sort-select" onchange="triggerSort('tasksTable', this.value)">
+                    <option value="">Sort By...</option>
+                    <option value="1">Title</option>
+                    <option value="3">Status</option>
+                    <option value="4">Organization</option>
+                    <option value="5">Date Created</option>
+                </select>
+                <button class="search-btn" onclick="triggerSearch('taskSearch')">Search</button>
+            </div>
             <div class="table-wrap">
-                <table>
+                <table id="tasksTable">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -138,6 +152,7 @@
 
 <script>
     initializeDetailsForm('${pageContext.request.contextPath}/admin/tasks', 'updateTask', 'deleteTask', 'Edit Task');
+    initTableFeatures('tasksTable', 'taskSearch');
 
     function filterTasks() {
         var status = document.getElementById('statusFilter').value;

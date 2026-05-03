@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>My Active Tasks &ndash; CityWatch</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?v=1.2">
+    <script src="${pageContext.request.contextPath}/js/table-utils.js?v=1.2"></script>
 </head>
 <body>
 <div class="layout">
@@ -17,8 +18,19 @@
             <p>Tasks currently assigned to your organization.</p>
         </div>
         <div class="card">
+            <div class="search-bar">
+                <div class="search-bar-inner">
+                    <input type="text" id="assignedSearch" placeholder="Search my tasks by title...">
+                </div>
+                <select class="sort-select" onchange="triggerSort('assignedTable', this.value)">
+                    <option value="">Sort By...</option>
+                    <option value="1">Title</option>
+                    <option value="3">Date Assigned</option>
+                </select>
+                <button class="search-btn" onclick="triggerSearch('assignedSearch')">Search</button>
+            </div>
             <div class="table-wrap">
-                <table>
+                <table id="assignedTable">
                     <thead>
                     <tr><th>#</th><th>Title</th><th>Claimed On</th><th>Status</th></tr>
                     </thead>
@@ -54,6 +66,8 @@
 </div>
 
 <script>
+    initTableFeatures('assignedTable', 'assignedSearch');
+    
     function showTaskDetail(row) {
         if (!row || !row.dataset) return;
         var d = row.dataset;

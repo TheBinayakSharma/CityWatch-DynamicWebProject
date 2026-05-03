@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Organizations &ndash; CityWatch</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?v=1.2">
+    <script src="${pageContext.request.contextPath}/js/table-utils.js?v=1.2"></script>
 </head>
 <body>
 <div class="layout">
@@ -15,14 +16,26 @@
         <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
             <div>
                 <h1 class="page-title" style="margin: 0;">Organization Management</h1>
-                <p style="margin: 5px 0 0 0; color: var(--muted);">Manage all registered NGOs and agencies.</p>
+                <p style="margin: 5px 0 0 0; color: var(--muted);">Review and manage registered organizations.</p>
             </div>
             <button class="btn btn-primary" onclick="prepareAddOrg()">+ Add Organization</button>
         </div>
 
         <div class="card">
+            <div class="search-bar">
+                <div class="search-bar-inner">
+                    <input type="text" id="orgSearch" placeholder="Search by name, type, email or phone...">
+                </div>
+                <select class="sort-select" onchange="triggerSort('orgTable', this.value)">
+                    <option value="">Sort By...</option>
+                    <option value="1">Name</option>
+                    <option value="2">Type</option>
+                    <option value="0">ID</option>
+                </select>
+                <button class="search-btn" onclick="triggerSearch('orgSearch')">Search</button>
+            </div>
             <div class="table-wrap">
-                <table>
+                <table id="orgTable">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -77,6 +90,7 @@
 
 <script>
     initializeDetailsForm('${pageContext.request.contextPath}/admin/orgs', 'updateOrg', 'deleteOrg', 'Organization Details');
+    initTableFeatures('orgTable', 'orgSearch');
 
     function showOrgDetails(row) {
         if (!row || !row.dataset) return;

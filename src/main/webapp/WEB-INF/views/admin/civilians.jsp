@@ -5,7 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Civilians &ndash; CityWatch</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?v=1.2">
+    <script src="${pageContext.request.contextPath}/js/table-utils.js?v=1.2"></script>
 </head>
 <body>
 <div class="layout">
@@ -20,8 +21,20 @@
         </div>
 
         <div class="card">
+            <div class="search-bar">
+                <div class="search-bar-inner">
+                    <input type="text" id="civilianSearch" placeholder="Search by name, username, email or ward...">
+                </div>
+                <select class="sort-select" onchange="triggerSort('civilianTable', this.value)">
+                    <option value="">Sort By...</option>
+                    <option value="1">Full Name</option>
+                    <option value="2">Username</option>
+                    <option value="5">Ward No.</option>
+                </select>
+                <button class="search-btn" onclick="triggerSearch('civilianSearch')">Search</button>
+            </div>
             <div class="table-wrap">
-                <table>
+                <table id="civilianTable">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -73,6 +86,7 @@
 
 <script>
     initializeDetailsForm('${pageContext.request.contextPath}/admin/civilians', 'updateCivilian', 'deleteCivilian', 'Civilian Details');
+    initTableFeatures('civilianTable', 'civilianSearch');
 
     function showCivilianDetails(row) {
         if (!row || !row.dataset) return;
