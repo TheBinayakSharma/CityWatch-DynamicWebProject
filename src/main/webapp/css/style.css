@@ -445,24 +445,30 @@ select.form-control {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--primary) 0%, #2a5f8f 100%);
+  padding: 24px;
+  position: relative;
 }
 
 .auth-card {
-  background: var(--white);
-  border-radius: 10px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   padding: 40px 44px;
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .auth-card .brand-title {
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   font-weight: 800;
   color: var(--primary);
   text-align: center;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
 }
 
 .auth-card .brand-sub {
@@ -472,17 +478,55 @@ select.form-control {
   margin-bottom: 28px;
 }
 
+/* Auth Modals & Tokens */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s;
+}
+.modal-overlay.show { visibility: visible; opacity: 1; }
+.modal-card {
+  background: var(--white);
+  padding: 32px;
+  border-radius: var(--radius);
+  width: 90%;
+  max-width: 460px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+}
+.token-box {
+  background: #f1f5f9;
+  border: 2px dashed var(--primary);
+  padding: 16px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 20px 0;
+  word-break: break-all;
+  color: var(--primary);
+  border-radius: 8px;
+}
+
 .auth-links {
   text-align: center;
-  margin-top: 18px;
-  font-size: 0.85rem;
+  margin-top: 24px;
+  font-size: 0.9rem;
   color: var(--muted);
 }
 
 .auth-links a {
+  font-weight: 700;
   color: var(--primary);
-  font-weight: 600;
 }
+
 
 /* ── Notices widget ────────────────────────────────────────────── */
 .notice-item {

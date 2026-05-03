@@ -6,59 +6,13 @@
     <meta charset="UTF-8">
     <title>Forgot Password &ndash; CityWatch</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    <style>
-        .auth-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 40px;
-            background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .auth-container h2 { margin-bottom: 10px; color: var(--primary); }
-        .auth-container p { color: var(--muted); margin-bottom: 25px; }
-        
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            visibility: hidden;
-            opacity: 0;
-            transition: 0.3s;
-        }
-        .modal-overlay.show { visibility: visible; opacity: 1; }
-        .modal-card {
-            background: var(--white);
-            padding: 30px;
-            border-radius: var(--radius);
-            width: 90%;
-            max-width: 450px;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-        }
-        .token-box {
-            background: #f8f9fa;
-            border: 2px dashed var(--primary);
-            padding: 15px;
-            font-family: monospace;
-            font-size: 1.2rem;
-            margin: 20px 0;
-            word-break: break-all;
-            color: var(--primary);
-        }
-    </style>
 </head>
 <body>
 
-<div class="auth-container">
-    <h2>Forgot Password?</h2>
-    <p>Enter your username and registered email to generate a reset token.</p>
+<div class="auth-wrapper" style="background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${pageContext.request.contextPath}/images/auth-bg.png') no-repeat center center / cover fixed;">
+    <div class="auth-card">
+        <div class="brand-title">CityWatch</div>
+        <div class="brand-sub">Reset your password</div>
 
     <c:if test="${not empty error}">
         <div class="alert alert-danger" style="margin-bottom:20px;">${error}</div>
@@ -76,8 +30,10 @@
         <button type="submit" class="btn btn-primary" style="width:100%; margin-top:20px;">Generate Reset Token</button>
     </form>
 
-    <div style="margin-top:20px;">
-        <a href="${pageContext.request.contextPath}/login" style="color:var(--muted); font-size:0.9rem;">Back to Login</a>
+    <div class="auth-links">
+        <a href="${pageContext.request.contextPath}/login">Back to Login</a>
+    </div>
+
     </div>
 </div>
 

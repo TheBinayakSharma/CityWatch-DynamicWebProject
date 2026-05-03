@@ -9,7 +9,7 @@
  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
-<div class="auth-wrapper">
+<div class="auth-wrapper" style="background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${pageContext.request.contextPath}/images/auth-bg.png') no-repeat center center / cover fixed;">
  <div class="auth-card">
  <div class="brand-title">CityWatch</div>
  <div class="brand-sub">Government &bull; Organizations &bull; Civilians</div>

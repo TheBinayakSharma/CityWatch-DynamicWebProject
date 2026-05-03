@@ -24,7 +24,7 @@
     </style>
 </head>
 <body>
-<div class="auth-wrapper">
+<div class="auth-wrapper" style="background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${pageContext.request.contextPath}/images/auth-bg.png') no-repeat center center / cover fixed;">
     <div class="auth-card" style="max-width:500px;">
         <div class="brand-title">CityWatch</div>
         <div class="brand-sub">Join the community</div>
