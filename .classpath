@@ -13,9 +13,9 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Users/binay/eclipse-workspace/StudentsProject/src/main/webapp/WEB-INF/lib/jbcrypt-0.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/binay/Downloads/JavaJarFiles_69c49433-d65f-4742-a0d7-93cefeffea52_278170_/Java Jar Files/jar_files/jakarta.servlet.jsp.jstl-2.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/binay/Downloads/JavaJarFiles_69c49433-d65f-4742-a0d7-93cefeffea52_278170_/Java Jar Files/jar_files/jakarta.servlet.jsp.jstl-api-2.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/binay/Downloads/JavaJarFiles_69c49433-d65f-4742-a0d7-93cefeffea52_278170_/Java Jar Files/mysql-connector-j-9.0.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jbcrypt-0.4.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jakarta.servlet.jsp.jstl-2.0.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jakarta.servlet.jsp.jstl-api-2.0.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mysql-connector-j-9.0.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

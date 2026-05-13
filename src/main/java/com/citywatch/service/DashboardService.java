@@ -42,6 +42,14 @@ public class DashboardService {
 
         stats.put("totalNotices", noticeDao.count());
         stats.put("recentNotices", noticeDao.findRecent(5));
+        
+        // Extended Admin Widgets
+        stats.put("recentOrgs", userDao.findRecentByRole("ORGANIZATION", 5));
+        stats.put("recentCivilians", userDao.findRecentByRole("CIVILIAN", 5));
+        stats.put("recentTasks", taskDao.findRecent(5));
+        stats.put("completedThisWeek", taskDao.countCompletedInLastDays(7));
+        stats.put("completedThisMonth", taskDao.countCompletedInLastDays(30));
+        stats.put("leaderboard", taskDao.getOrgLeaderboard(5));
 
         return stats;
     }
@@ -59,7 +67,13 @@ public class DashboardService {
         stats.put("completedCount",
                 taskDao.findByOrgAndStatus(orgUserId, "COMPLETED").size());
 
+        stats.put("totalNotices", noticeDao.count());
         stats.put("recentNotices", noticeDao.findRecent(5));
+        
+        // Extended Org Widgets
+        stats.put("assignedTasks", taskDao.findByOrgAndStatus(orgUserId, "IN_PROGRESS"));
+        stats.put("recentCompleted", taskDao.findRecentByOrgAndStatus(orgUserId, "COMPLETED", 5));
+        stats.put("recentAvailable", taskDao.findRecentByStatus("AVAILABLE", 5));
 
         return stats;
     }
@@ -74,8 +88,14 @@ public class DashboardService {
         stats.put("availableCount", taskDao.countByStatus("AVAILABLE"));
         stats.put("inProgressCount", taskDao.countByStatus("IN_PROGRESS"));
         stats.put("completedCount", taskDao.countByStatus("COMPLETED"));
-
+        
+        stats.put("totalOrgs", userDao.countByRole("ORGANIZATION"));
         stats.put("recentNotices", noticeDao.findRecent(5));
+        
+        // Extended Civilian Widgets
+        stats.put("recentCompleted", taskDao.findRecentByStatus("COMPLETED", 5));
+        stats.put("inProgressWithOrg", taskDao.findByStatus("IN_PROGRESS"));
+        stats.put("recentAvailable", taskDao.findRecentByStatus("AVAILABLE", 5));
 
         return stats;
     }

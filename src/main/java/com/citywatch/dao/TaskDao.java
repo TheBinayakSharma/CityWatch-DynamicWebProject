@@ -6,7 +6,9 @@ import com.citywatch.model.Task;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TaskDao {
 
@@ -184,5 +186,90 @@ public class TaskDao {
             throw new RuntimeException(e);
         }
         return 0;
+    }
+
+    public List<Task> findRecent(int limit) {
+        List<Task> list = new ArrayList<>();
+        String sql = "SELECT t.*, o.org_name FROM tasks t " +
+                     "LEFT JOIN organizations o ON t.assigned_org = o.user_id ORDER BY t.created_at DESC LIMIT ?";
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setInt(1, limit);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) list.add(mapRow(rs));
+        } catch (SQLException e) {
+            System.err.println("TaskDao.findRecent: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
+    public List<Task> findRecentByStatus(String status, int limit) {
+        List<Task> list = new ArrayList<>();
+        String sql = "SELECT t.*, o.org_name FROM tasks t " +
+                     "LEFT JOIN organizations o ON t.assigned_org = o.user_id " +
+                     "WHERE t.status = ? ORDER BY t.created_at DESC LIMIT ?";
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setString(1, status);
+            ps.setInt(2, limit);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) list.add(mapRow(rs));
+        } catch (SQLException e) {
+            System.err.println("TaskDao.findRecentByStatus: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
+    public List<Task> findRecentByOrgAndStatus(int orgUserId, String status, int limit) {
+        List<Task> list = new ArrayList<>();
+        String sql = "SELECT t.*, o.org_name FROM tasks t " +
+                     "LEFT JOIN organizations o ON t.assigned_org = o.user_id " +
+                     "WHERE t.assigned_org = ? AND t.status = ? ORDER BY t.created_at DESC LIMIT ?";
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setInt(1, orgUserId);
+            ps.setString(2, status);
+            ps.setInt(3, limit);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) list.add(mapRow(rs));
+        } catch (SQLException e) {
+            System.err.println("TaskDao.findRecentByOrgAndStatus: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
+    public int countCompletedInLastDays(int days) {
+        String sql = "SELECT COUNT(*) FROM tasks WHERE status = 'COMPLETED' AND completed_at >= DATE_SUB(NOW(), INTERVAL ? DAY)";
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setInt(1, days);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            System.err.println("TaskDao.countCompletedInLastDays: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
+    public List<Map<String, Object>> getOrgLeaderboard(int limit) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String sql = "SELECT o.org_name, COUNT(t.id) as completed_count " +
+                     "FROM tasks t JOIN organizations o ON t.assigned_org = o.user_id " +
+                     "WHERE t.status = 'COMPLETED' " +
+                     "GROUP BY o.user_id ORDER BY completed_count DESC LIMIT ?";
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setInt(1, limit);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("orgName", rs.getString("org_name"));
+                map.put("count", rs.getInt("completed_count"));
+                list.add(map);
+            }
+        } catch (SQLException e) {
+            System.err.println("TaskDao.getOrgLeaderboard: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return list;
     }
 }

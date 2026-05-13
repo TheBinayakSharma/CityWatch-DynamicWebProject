@@ -158,4 +158,19 @@ public class UserDao {
             throw new RuntimeException(e);
         }
     }
-}
+
+    public List<User> findRecentByRole(String role, int limit) {
+        List<User> list = new ArrayList<>();
+        String sql = "SELECT * FROM users WHERE role = ? ORDER BY created_at DESC LIMIT ?";
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setString(1, role);
+            ps.setInt(2, limit);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) list.add(mapRow(rs));
+        } catch (SQLException e) {
+            System.err.println("UserDao.findRecentByRole: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+}

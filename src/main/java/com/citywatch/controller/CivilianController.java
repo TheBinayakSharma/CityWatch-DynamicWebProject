@@ -24,7 +24,7 @@ public class CivilianController extends HttpServlet {
             throws ServletException, IOException {
 
         String path = req.getPathInfo();
-        if (path == null) path = "/home";
+        if (path == null || path.equals("/")) path = "/home";
 
         switch (path) {
             case "/home":
