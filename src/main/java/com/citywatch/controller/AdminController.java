@@ -18,7 +18,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet("/admin/*")
+@WebServlet(urlPatterns = {"/admin", "/admin/*"})
 public class AdminController extends HttpServlet {
 
     private final UserService userService = new UserService();

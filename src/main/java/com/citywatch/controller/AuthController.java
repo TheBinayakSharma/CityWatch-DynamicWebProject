@@ -40,6 +40,14 @@ public class AuthController extends HttpServlet {
             throws ServletException, IOException {
 
         String path = req.getServletPath();
+        HttpSession session = req.getSession(false);
+        String role = (session != null) ? (String) session.getAttribute("role") : null;
+
+        // Redirect logged-in users away from auth pages
+        if (role != null && ("/login".equals(path) || "/register".equals(path) || "/forgot-password".equals(path) || "/reset-password".equals(path))) {
+            redirectToDashboard(req, resp, role);
+            return;
+        }
 
         switch (path) {
             case "/login":
@@ -137,24 +145,7 @@ public class AuthController extends HttpServlet {
         resp.addCookie(cookie);
 
         // Redirect by role
-        String ctx = req.getContextPath();
-
-        switch (user.getRole()) {
-            case "ADMIN":
-                resp.sendRedirect(ctx + "/admin/home");
-                break;
-
-            case "ORGANIZATION":
-                resp.sendRedirect(ctx + "/org/home");
-                break;
-
-            case "CIVILIAN":
-                resp.sendRedirect(ctx + "/civilian/home");
-                break;
-
-            default:
-                resp.sendRedirect(ctx + "/login");
-        }
+        redirectToDashboard(req, resp, user.getRole());
     }
 
     // REGISTER
@@ -347,5 +338,22 @@ public class AuthController extends HttpServlet {
 
         req.setAttribute(attrKey, attrVal);
         req.getRequestDispatcher(view).forward(req, resp);
+    }
+
+    private void redirectToDashboard(HttpServletRequest req, HttpServletResponse resp, String role) throws IOException {
+        String ctx = req.getContextPath();
+        switch (role) {
+            case "ADMIN":
+                resp.sendRedirect(ctx + "/admin/home");
+                break;
+            case "ORGANIZATION":
+                resp.sendRedirect(ctx + "/org/home");
+                break;
+            case "CIVILIAN":
+                resp.sendRedirect(ctx + "/civilian/home");
+                break;
+            default:
+                resp.sendRedirect(ctx + "/login");
+        }
     }
 }

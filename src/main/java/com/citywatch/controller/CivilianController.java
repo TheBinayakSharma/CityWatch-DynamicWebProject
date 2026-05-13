@@ -12,7 +12,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet("/civilian/*")
+@WebServlet(urlPatterns = {"/civilian", "/civilian/*"})
 public class CivilianController extends HttpServlet {
 
     private final TaskDao taskDao = new TaskDao();

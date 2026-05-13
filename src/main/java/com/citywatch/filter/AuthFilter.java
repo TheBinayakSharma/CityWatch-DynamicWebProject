@@ -20,19 +20,19 @@ public class AuthFilter implements Filter {
  resp.sendRedirect(ctx + "/login");
  return;
  }
- // Role mismatch — redirect to error
- if (path.startsWith(ctx + "/admin/") && !"ADMIN".equals(role)) {
- resp.sendRedirect(ctx + "/error");
- return;
- }
- if (path.startsWith(ctx + "/org/") && !"ORGANIZATION".equals(role)) {
- resp.sendRedirect(ctx + "/error");
- return;
- }
- if (path.startsWith(ctx + "/civilian/") && !"CIVILIAN".equals(role)) {
- resp.sendRedirect(ctx + "/error");
- return;
- }
+        // Role mismatch — redirect to error
+        if ((path.equals(ctx + "/admin") || path.startsWith(ctx + "/admin/")) && !"ADMIN".equals(role)) {
+            resp.sendRedirect(ctx + "/error");
+            return;
+        }
+        if ((path.equals(ctx + "/org") || path.startsWith(ctx + "/org/")) && !"ORGANIZATION".equals(role)) {
+            resp.sendRedirect(ctx + "/error");
+            return;
+        }
+        if ((path.equals(ctx + "/civilian") || path.startsWith(ctx + "/civilian/")) && !"CIVILIAN".equals(role)) {
+            resp.sendRedirect(ctx + "/error");
+            return;
+        }
  chain.doFilter(request, response);
  }
  @Override public void init(FilterConfig fc) {}
