@@ -22,8 +22,8 @@
                     <p>Welcome, <strong><c:out value="${sessionScope.fullName}"/></strong>. Monitor your city's progress below.</p>
                 </div>
                 <div class="quick-actions">
-                    <a href="${pageContext.request.contextPath}/civilian/requestTask" class="btn btn-primary btn-sm">+ Request New Task</a>
-                    <a href="${pageContext.request.contextPath}/civilian/tasks" class="btn btn-success btn-sm">Browse Public Tasks</a>
+                    <a href="${pageContext.request.contextPath}/civilian/myRequests" class="btn btn-primary btn-sm">&#x1F4DD; My Requests</a>
+                    <a href="${pageContext.request.contextPath}/civilian/requestTask" class="btn btn-success btn-sm">+ New Request</a>
                 </div>
             </div>
         </div>

@@ -35,10 +35,11 @@
                </c:when>
                 <c:when test="${sessionScope.role == 'CIVILIAN'}">
                    <a href="${pageContext.request.contextPath}/civilian/home">&#x2302; Dashboard</a>
-                   <a href="${pageContext.request.contextPath}/civilian/requestTask">&#x2795; Request Task</a>
+                   <a href="${pageContext.request.contextPath}/civilian/myRequests">&#x1F4DD; My Requests</a>
+                   <a href="${pageContext.request.contextPath}/civilian/requestTask">&#x2795; New Request</a>
                    <a href="${pageContext.request.contextPath}/civilian/notices">&#x1F4E2; Notices</a>
-                   <a href="${pageContext.request.contextPath}/civilian/tasks">&#x1F4CB; Tasks</a>
-                   <a href="${pageContext.request.contextPath}/civilian/inProgress">&#x23F3; In Progress</a>
+                   <a href="${pageContext.request.contextPath}/civilian/tasks">&#x1F4CB; Public Tasks</a>
+                   <a href="${pageContext.request.contextPath}/civilian/inProgress">&#x23F3; City Progress</a>
                    <a href="${pageContext.request.contextPath}/civilian/completed">&#x2714; Completed</a>
                 </c:when>
             </c:choose>

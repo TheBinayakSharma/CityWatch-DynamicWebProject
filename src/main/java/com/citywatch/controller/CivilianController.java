@@ -47,6 +47,10 @@ public class CivilianController extends HttpServlet {
                 showCompleted(req, resp);
                 break;
 
+            case "/myRequests":
+                showMyRequests(req, resp);
+                break;
+
             case "/requestTask":
                 fwd(req, resp, "civilian/requestTask.jsp");
                 break;
@@ -109,6 +113,14 @@ public class CivilianController extends HttpServlet {
 
         req.setAttribute("tasks", taskDao.findByStatus("IN_PROGRESS"));
         fwd(req, resp, "civilian/inProgress.jsp");
+    }
+
+    private void showMyRequests(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        int userId = (int) session.getAttribute("userId");
+        req.setAttribute("tasks", taskDao.findByCreatedBy(userId));
+        fwd(req, resp, "civilian/myRequests.jsp");
     }
 
     private void showCompleted(HttpServletRequest req, HttpServletResponse resp)

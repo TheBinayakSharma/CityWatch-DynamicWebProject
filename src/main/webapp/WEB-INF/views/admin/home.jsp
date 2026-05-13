@@ -8,6 +8,27 @@
     <title>Admin Dashboard – CityWatch</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .chart-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+        }
+        .chart-card canvas {
+            max-height: 280px;
+        }
+    </style>
 </head>
 <body>
 <div class="layout">
@@ -25,6 +46,26 @@
                     <a href="${pageContext.request.contextPath}/admin/addTask" class="btn btn-primary btn-sm">+ New Task</a>
                     <a href="${pageContext.request.contextPath}/admin/addNotice" class="btn btn-success btn-sm">+ New Notice</a>
                 </div>
+            </div>
+        </div>
+
+        <%-- Visual Analytics Section --%>
+        <div class="charts-container">
+            <div class="chart-card">
+                <div class="card-title" style="margin-bottom:15px; font-size:1rem;">📊 Task Distribution</div>
+                <canvas id="taskDistributionChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="card-title" style="margin-bottom:15px; font-size:1rem;">🏢 Org Performance</div>
+                <canvas id="orgPerformanceChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="card-title" style="margin-bottom:15px; font-size:1rem;">👥 User Composition</div>
+                <canvas id="userCompositionChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="card-title" style="margin-bottom:15px; font-size:1rem;">📈 Completion Velocity</div>
+                <canvas id="velocityChart"></canvas>
             </div>
         </div>
 

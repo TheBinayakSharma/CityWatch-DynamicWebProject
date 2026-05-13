@@ -94,6 +94,22 @@ public class TaskDao {
         return list;
     }
 
+    public List<Task> findByCreatedBy(int userId) {
+        List<Task> list = new ArrayList<>();
+        String sql = "SELECT t.*, o.org_name FROM tasks t " +
+                     "LEFT JOIN organizations o ON t.assigned_org = o.user_id " +
+                     "WHERE t.created_by = ? ORDER BY t.created_at DESC";
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) list.add(mapRow(rs));
+        } catch (SQLException e) {
+            System.err.println("TaskDao.findByCreatedBy: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
     public boolean insertTask(Task task) {
         return insertTaskWithStatus(task, "AVAILABLE");
     }
