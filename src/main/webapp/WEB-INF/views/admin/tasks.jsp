@@ -28,7 +28,6 @@
                             <th>Title</th>
                             <th>Description</th>
                             <th>Status</th>
-                            <th>Requester ID</th>
                             <th>Requested At</th>
                         </tr>
                         </thead>
@@ -44,7 +43,6 @@
                                 <td><c:out value="${t.title}"/></td>
                                 <td><c:out value="${t.description}"/></td>
                                 <td><span class="badge" style="background:var(--warning); color:white;">Pending</span></td>
-                                <td>User #<c:out value="${t.createdBy}"/></td>
                                 <td><fmt:formatDate value="${t.createdAt}" pattern="dd MMM yyyy"/></td>
                             </tr>
                         </c:forEach>
