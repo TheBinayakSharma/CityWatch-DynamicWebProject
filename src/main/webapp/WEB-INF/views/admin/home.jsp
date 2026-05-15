@@ -8,6 +8,7 @@
     <title>Admin Dashboard – CityWatch</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .charts-container {
@@ -43,8 +44,8 @@
                     <p style="font-size:0.85rem; margin:0;">Logged in as <strong><c:out value="${sessionScope.fullName}"/></strong></p>
                 </div>
                 <div class="quick-actions">
-                    <a href="${pageContext.request.contextPath}/admin/addTask" class="btn btn-primary btn-xs">+ Task</a>
-                    <a href="${pageContext.request.contextPath}/admin/addNotice" class="btn btn-success btn-xs">+ Notice</a>
+                    <a href="${pageContext.request.contextPath}/admin/addTask" class="btn btn-primary btn-xs"><i class="fa-solid fa-plus"></i> Task</a>
+                    <a href="${pageContext.request.contextPath}/admin/addNotice" class="btn btn-success btn-xs"><i class="fa-solid fa-bullhorn"></i> Notice</a>
                 </div>
             </div>
         </div>
@@ -105,7 +106,7 @@
             </div>
         </div>
 
-        <div class="dashboard-grid">
+        <div class="dashboard-grid grid-2">
             <%-- Leaderboard Widget --%>
             <div class="card">
                 <div class="card-title">Top Organizations</div>
@@ -148,7 +149,9 @@
                     </tbody>
                 </table>
             </div>
+        </div>
 
+        <div class="dashboard-grid grid-2">
             <%-- Recent Civilians Widget --%>
             <div class="card">
                 <div class="card-title">New Civilians</div>
@@ -169,36 +172,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-
-        <div class="dashboard-grid">
-            <%-- Recent Tasks Widget --%>
-            <div class="card">
-                <div class="card-title">Recent Task Activity</div>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Task Title</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="t" items="${recentTasks}">
-                            <tr>
-                                <td style="font-size:0.85rem;"><strong><c:out value="${t.title}"/></strong></td>
-                                <td>
-                                    <span class="badge badge-${t.status.toLowerCase().replace('_', '-')}">
-                                        <c:out value="${t.status}"/>
-                                    </span>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-                <div style="margin-top:15px; text-align:right;">
-                    <a href="${pageContext.request.contextPath}/admin/tasks" style="font-size:0.8rem; font-weight:700;">Full Activity →</a>
-                </div>
-            </div>
 
             <%-- Recent Notices Widget --%>
             <div class="card">
@@ -218,6 +191,35 @@
                         </c:forEach>
                     </c:otherwise>
                 </c:choose>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 24px;">
+            <div class="card-title">Recent Task Activity</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Task Title</th>
+                        <th>Created</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="t" items="${recentTasks}">
+                        <tr>
+                            <td style="font-size:0.85rem;"><strong><c:out value="${t.title}"/></strong></td>
+                            <td style="font-size:0.75rem; color:#666;"><fmt:formatDate value="${t.createdAt}" pattern="dd MMM, HH:mm"/></td>
+                            <td>
+                                <span class="badge badge-${t.status.toLowerCase().replace('_', '-')}">
+                                    <c:out value="${t.status}"/>
+                                </span>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+            <div style="margin-top:15px; text-align:right;">
+                <a href="${pageContext.request.contextPath}/admin/tasks" style="font-size:0.8rem; font-weight:700;">Full Activity →</a>
             </div>
         </div>
 
@@ -266,7 +268,16 @@
         options: {
             indexAxis: 'y',
             plugins: { legend: { display: false } },
-            scales: { x: { beginAtZero: true } },
+            scales: { 
+                x: { beginAtZero: true },
+                y: { 
+                    ticks: {
+                        padding: 10,
+                        font: { size: 11, weight: '600' }
+                    }
+                } 
+            },
+            layout: { padding: { left: 10 } },
             maintainAspectRatio: false
         }
     });
@@ -294,7 +305,12 @@
     new Chart(document.getElementById('velocityChart'), {
         type: 'line',
         data: {
-            labels: ['Week 1', 'Week 2', 'Week 3', 'Current'],
+            labels: [
+                new Date(new Date().setDate(new Date().getDate() - 21)).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                new Date(new Date().setDate(new Date().getDate() - 14)).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                new Date(new Date().setDate(new Date().getDate() - 7)).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                'Today'
+            ],
             datasets: [{
                 label: 'Completion Trend',
                 data: [
