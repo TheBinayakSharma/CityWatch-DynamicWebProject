@@ -93,9 +93,14 @@ public class OrgController extends HttpServlet {
 
     private void showHome(HttpServletRequest req, HttpServletResponse resp, int orgUserId)
             throws ServletException, IOException {
-        Map<String, Object> stats = dashboardService.getOrgStats(orgUserId);
-        stats.forEach(req::setAttribute);
-        fwd(req, resp, "org/home.jsp");
+        try {
+            Map<String, Object> stats = dashboardService.getOrgStats(orgUserId);
+            stats.forEach(req::setAttribute);
+            fwd(req, resp, "org/home.jsp");
+        } catch (Exception e) {
+            req.setAttribute("errorMsg", "Org Dashboard Error: " + e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
+        }
     }
 
     private void showNotices(HttpServletRequest req, HttpServletResponse resp)

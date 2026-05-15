@@ -2,18 +2,22 @@
 <style>
     .main-footer {
         margin-top: 60px;
-        width: 100%;
+        width: 100% !important;
+        display: block !important;
+        clear: both !important;
         font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
     }
 
     .footer-main {
-        background: #1a3c5e; /* Project Primary Blue */
-        color: #ffffff;
+        background: #1a3c5e !important; /* Force Project Primary Blue */
+        color: #ffffff !important;
         padding: 80px 8%;
         display: grid;
-        grid-template-columns: 1.2fr 1fr 1fr 1.5fr;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 50px;
         align-items: start;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .footer-brand .footer-logo {

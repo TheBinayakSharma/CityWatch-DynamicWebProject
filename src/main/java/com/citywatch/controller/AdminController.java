@@ -268,9 +268,14 @@ public class AdminController extends HttpServlet {
     private void showHome(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        Map<String, Object> stats = dashboardService.getAdminStats();
-        stats.forEach(req::setAttribute);
-        fwd(req, resp, "admin/home.jsp");
+        try {
+            Map<String, Object> stats = dashboardService.getAdminStats();
+            stats.forEach(req::setAttribute);
+            fwd(req, resp, "admin/home.jsp");
+        } catch (Exception e) {
+            req.setAttribute("errorMsg", "Dashboard Error: " + e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
+        }
     }
 
     private void showOrgs(HttpServletRequest req, HttpServletResponse resp)

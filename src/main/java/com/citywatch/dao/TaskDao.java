@@ -177,7 +177,9 @@ public class TaskDao {
 
     public boolean approveTask(int id) {
         String sql = "UPDATE tasks SET status = 'AVAILABLE' WHERE id = ? AND status = 'PENDING'";
-        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+        Connection conn = getConn();
+        if (conn == null) throw new RuntimeException("Database connection is unavailable.");
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -193,13 +195,15 @@ public class TaskDao {
 
     public int countByStatus(String status) {
         String sql = "SELECT COUNT(*) FROM tasks WHERE status = ?";
-        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+        Connection conn = getConn();
+        if (conn == null) return 0;
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, status);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getInt(1);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1);
+            }
         } catch (SQLException e) {
-            System.err.println("TaskDao.countByStatus: " + e.getMessage());
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return 0;
     }

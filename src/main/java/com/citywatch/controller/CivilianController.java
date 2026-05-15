@@ -89,9 +89,14 @@ public class CivilianController extends HttpServlet {
     private void showHome(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        Map<String, Object> stats = dashboardService.getCivilianStats();
-        stats.forEach(req::setAttribute);
-        fwd(req, resp, "civilian/home.jsp");
+        try {
+            Map<String, Object> stats = dashboardService.getCivilianStats();
+            stats.forEach(req::setAttribute);
+            fwd(req, resp, "civilian/home.jsp");
+        } catch (Exception e) {
+            req.setAttribute("errorMsg", "Civilian Dashboard Error: " + e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
+        }
     }
 
     private void showNotices(HttpServletRequest req, HttpServletResponse resp)
