@@ -18,7 +18,7 @@
                 <h1 class="page-title" style="margin: 0;">Notice Board</h1>
                 <p style="margin: 5px 0 0 0; color: var(--muted);">Publish and manage city-wide announcements.</p>
             </div>
-            <button class="btn btn-primary" onclick="prepareAddNotice()">+ Post New Notice</button>
+            <button class="btn btn-primary" onclick="window.location.href='${pageContext.request.contextPath}/admin/addNotice'">+ Post New Notice</button>
         </div>
 
         <div class="card">
@@ -93,13 +93,7 @@
         showDetailsForm(content, d.id, false, row);
     }
 
-    function prepareAddNotice() {
-        var content = 
-            createFormField('Notice Title', 'title', '', 'text', 'Subject of the notice') +
-            createFormField('Description', 'description', '', 'textarea', 'Main announcement content...');
-        
-        showDetailsForm(content, '', false, null, false, true, 'addNotice');
-    }
+
 </script>
 </body>
 </html>

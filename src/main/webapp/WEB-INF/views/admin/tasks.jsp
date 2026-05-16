@@ -62,7 +62,7 @@
                     <option value="COMPLETED" ${currentFilter == 'COMPLETED' ? 'selected' : ''}>Completed</option>
                 </select>
             </div>
-            <button class="btn btn-primary" onclick="prepareAddTask()">+ Post New Task</button>
+            <button class="btn btn-primary" onclick="window.location.href='${pageContext.request.contextPath}/admin/addTask'">+ Post New Task</button>
         </div>
 
         <div class="card">
@@ -172,13 +172,7 @@
         showDetailsForm(content, d.id, false, row);
     }
 
-    function prepareAddTask() {
-        var content = 
-            createFormField('Task Title', 'title', '', 'text', 'Describe the task shortly') +
-            createFormField('Description', 'description', '', 'textarea', 'Detailed instructions for the organization');
-        
-        showDetailsForm(content, '', false, null, false, true, 'addTask');
-    }
+
 </script>
 </body>
 </html>
