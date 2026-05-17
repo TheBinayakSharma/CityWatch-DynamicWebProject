@@ -10,7 +10,12 @@
 </head>
 <body>
 <div class="auth-wrapper" style="background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${pageContext.request.contextPath}/images/auth-bg.png') no-repeat center center / cover fixed;">
- <div class="auth-card">
+    <div style="position: absolute; top: 30px; left: 40px;">
+        <a href="${pageContext.request.contextPath}/about" style="color: white; text-decoration: none; font-weight: 600; font-size: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+            Back to Home
+        </a>
+    </div>
+    <div class="auth-card">
  <div class="brand-title">CityWatch</div>
  <div class="brand-sub">Government &bull; Organizations &bull; Civilians</div>
  <c:if test="${not empty error}">

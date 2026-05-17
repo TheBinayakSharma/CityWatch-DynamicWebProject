@@ -10,6 +10,7 @@ import com.citywatch.model.Task;
 import com.citywatch.model.User;
 import com.citywatch.service.DashboardService;
 import com.citywatch.service.UserService;
+import com.citywatch.dao.ContactQueryDao;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,6 +26,7 @@ public class AdminController extends HttpServlet {
     private final TaskDao taskDao = new TaskDao();
     private final NoticeDao noticeDao = new NoticeDao();
     private final DashboardService dashboardService = new DashboardService();
+    private final ContactQueryDao contactQueryDao = new ContactQueryDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -52,6 +54,10 @@ public class AdminController extends HttpServlet {
 
             case "/notices":
                 showNotices(req, resp);
+                break;
+
+            case "/queries":
+                showQueries(req, resp);
                 break;
 
             case "/completedTasks":
@@ -254,6 +260,11 @@ public class AdminController extends HttpServlet {
                     resp.sendRedirect(req.getContextPath() + "/admin/tasks");
                     break;
 
+                case "resolveQuery":
+                    contactQueryDao.updateStatus(Integer.parseInt(req.getParameter("id")), "RESOLVED");
+                    resp.sendRedirect(req.getContextPath() + "/admin/queries");
+                    break;
+
                 default:
                     resp.sendRedirect(req.getContextPath() + "/admin/home");
             }
@@ -313,6 +324,13 @@ public class AdminController extends HttpServlet {
 
         req.setAttribute("notices", noticeDao.findAll());
         fwd(req, resp, "admin/notices.jsp");
+    }
+
+    private void showQueries(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        req.setAttribute("queries", contactQueryDao.getAllQueries());
+        fwd(req, resp, "admin/queries.jsp");
     }
 
     private void showCompletedTasks(HttpServletRequest req, HttpServletResponse resp)
