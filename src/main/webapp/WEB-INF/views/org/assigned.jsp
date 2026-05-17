@@ -82,9 +82,9 @@
                 label: 'Mark as Complete',
                 className: 'btn-primary',
                 onclick: function() {
-                    if(confirm('Are you sure you want to mark this task as completed?')) {
+                    showConfirmModal('Complete Task', 'Are you sure you want to mark this task as completed?', function() {
                         performAction('${pageContext.request.contextPath}/org/assigned', 'completeTask', d.id);
-                    }
+                    });
                 }
             }
         ];

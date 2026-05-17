@@ -82,9 +82,9 @@
                 label: 'Claim Task',
                 className: 'btn-success',
                 onclick: function() {
-                    if(confirm('Are you sure you want to claim this task?')) {
+                    showConfirmModal('Claim Task', 'Are you sure you want to claim this task?', function() {
                         performAction('${pageContext.request.contextPath}/org/tasks', 'claimTask', d.id);
-                    }
+                    });
                 }
             }
         ];

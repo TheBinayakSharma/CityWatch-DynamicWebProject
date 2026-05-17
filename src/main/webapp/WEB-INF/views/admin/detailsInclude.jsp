@@ -160,24 +160,24 @@
             }
 
             function handleRemove() {
-                if (confirm('Are you sure you want to remove this item?')) {
+                showConfirmModal('Remove Item', 'Are you sure you want to remove this item?', function() {
                     document.getElementById('formAction').value = window.currentRemoveAction;
                     document.getElementById('detailsForm').submit();
-                }
+                }, true);
             }
 
             function handleAccountStatus(action) {
-                if (confirm('Confirm account status change?')) {
+                showConfirmModal('Account Status', 'Confirm account status change?', function() {
                     document.getElementById('formAction').value = action;
                     document.getElementById('detailsForm').submit();
-                }
+                });
             }
 
             function handleApproval(action) {
-                if (confirm('Are you sure you want to perform this action on the request?')) {
+                showConfirmModal('Confirm Action', 'Are you sure you want to perform this action on the request?', function() {
                     document.getElementById('formAction').value = action;
                     document.getElementById('detailsForm').submit();
-                }
+                });
             }
 
             function showDetailsForm(contentHtml, idValue, isUser, rowElement, isLocked, isAddMode, customAction) {

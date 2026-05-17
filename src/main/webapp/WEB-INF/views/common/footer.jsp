@@ -118,3 +118,5 @@
         <span>Built with Unity for a Smarter Nepal</span>
     </div>
 </footer>
+
+<jsp:include page="/WEB-INF/views/common/modal.jsp" />
